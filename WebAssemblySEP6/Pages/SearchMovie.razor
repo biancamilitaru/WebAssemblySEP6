@@ -6,4 +6,7 @@
     <p>Your text: @searchText</p>
 </div>
 
-<MovieCard/>
+@foreach (var id in movieIds)
+{
+    <MovieCard movieId=@id></MovieCard>
+}

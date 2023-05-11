@@ -2,6 +2,7 @@ namespace WebAssemblySEP6.Model;
 
 public class Movie
 {
+    public int MovideId { get; set; }
     public string Title { get; set; }
 
     public string Description { get; set; }
