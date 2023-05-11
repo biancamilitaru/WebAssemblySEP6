@@ -31,35 +31,35 @@ table {
     <tr></tr>
   <td class="movie" width="50%">
     <p>
-        <img src="@imageSource" width="300px" />
+        <img src="@movie.Image" width="300px" />
     </p>
   </td>
   <td class="movie" width="50%">
-    <p>Title: @title</p>
-    <p>Description: @description</p>
-    <p>Director: @director</p>
+    <p>Title: @movie.Title</p>
+    <p>Description: @movie.Description</p>
+    <p>Director: @movie.Director</p>
     <p>Actors: </p>
-    @if (actors != null) {
+    @if (movie.Actors != null) {
         <li>
-     @foreach (var actor in actors)
+     @foreach (var actor in movie.Actors)
         {
-                <ul class="list">@actor</ul>
+                <ul class="list">@movie.Actors</ul>
         }
         </li>
     }
     <table>
         <tr>
             <td class="column">
-                <p>Average rating: @avgRating</p>
+                <p>Average rating: @movie.AvgRating</p>
             </td>
             <td class="column">
-                <p>Number of votes: @numOfVotes</p>
+                <p>Number of votes: @movie.NumberOfVotes</p>
             </td>
         </tr>
         
     </table>
         <p>Comments: </p>
-        @if (comments == null)
+        @if (movie.Comments == null)
         {
             <p>
                 <em class="list">No comments</em>
@@ -68,7 +68,7 @@ table {
         else
         {
         <li>
-            @foreach (var comment in comments)
+            @foreach (var comment in movie.Comments)
                 {
                         <ul class="list">@comment.userName said: @comment.comment</ul>
                 }
