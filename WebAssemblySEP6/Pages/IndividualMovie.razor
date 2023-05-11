@@ -1,0 +1,88 @@
+@page "/movie"
+
+<PageTitle>Movie</PageTitle>
+
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.column {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.movie {
+    vertical-align: top;
+}
+
+.list {
+    padding-left: 20px;
+}
+
+</style>
+
+<h1>Specific movie</h1>
+
+
+<table>
+    <tr></tr>
+  <td class="movie" width="50%">
+    <p>
+        <img src="@imageSource" width="300px" />
+    </p>
+  </td>
+  <td class="movie" width="50%">
+    <p>Title: @title</p>
+    <p>Description: @description</p>
+    <p>Director: @director</p>
+    <p>Actors: </p>
+    @if (actors != null) {
+        <li>
+     @foreach (var actor in actors)
+        {
+                <ul class="list">@actor</ul>
+        }
+        </li>
+    }
+    <table>
+        <tr>
+            <td class="column">
+                <p>Average rating: @avgRating</p>
+            </td>
+            <td class="column">
+                <p>Number of votes: @numOfVotes</p>
+            </td>
+        </tr>
+        
+    </table>
+        <p>Comments: </p>
+        @if (comments == null)
+        {
+            <p>
+                <em class="list">No comments</em>
+            </p>
+        }
+        else
+        {
+        <li>
+            @foreach (var comment in comments)
+                {
+                        <ul class="list">@comment.userName said: @comment.comment</ul>
+                }
+                </li> 
+        }
+
+        <div>
+            <button class="btn btn-primary" @onclick="AddComment">Comment</button>
+        </div>
+    
+    </td>
+    
+  </table>
+  
+
+
+
