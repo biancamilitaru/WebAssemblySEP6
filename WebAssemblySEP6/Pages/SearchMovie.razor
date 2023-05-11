@@ -1,12 +1,32 @@
 @page "/SearchMovie"
-<h3>Search for a movie movie</h3>
 
-<div class="text-center">
-    <input class="border-4" @bind-value="searchText" @bind-value:event="oninput" placeholder="Search by title" />
-    <p>Your text: @searchText</p>
+<head>
+    <link rel="stylesheet" href="css/searchMovie.css">
+</head>
+
+<div>
+    <h3>Search for a movie</h3>
+<div class="searchBar">
+<table>
+    <tr>
+        <td>
+            <div class="text-center">
+                <input class="search" @bind-value="searchText" @bind-value:event="oninput" placeholder="Search by title" />
+               
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-dark" >Search</button>
+        </td>
+    </tr>
+</table>
 </div>
 
-@foreach (var id in movieIds)
-{
-    <MovieCard movieId=@id></MovieCard>
-}
+
+<div class="wrapper">
+      @foreach (var id in movieIds)
+        {
+            <MovieCard movieId=@id></MovieCard>
+        }
+   </div> 
+ </div> 

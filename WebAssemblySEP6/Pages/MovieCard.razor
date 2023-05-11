@@ -1,25 +1,14 @@
 @page "/moviecard/{movieId:int}"
-<div style="width: fit-content; border: 2px solid">
-    <p>Title: @movie.Title</p>
-    <p>Description: @movie.Description</p>
-    <p>Director: @movie.Director</p>
-    <p>Image: @movie.Image </p>
-    <p>AvgRating: @movie.AvgRating</p>
-    <p>NumberOfVotes: @movie.NumberOfVotes</p>
-    @foreach (var actor in movie.Actors)
-    {
-        <p>Actor: @actor</p>
-    }
-    @if (movie.Comments == null)
-    {
-        <p>No comments</p>
-    }
-    else
-    {
-        @foreach (var comment in movie.Comments)
-        {
-            <p>Username: @comment.userName</p>
-            <p>Comment: @comment.comment</p>                              
-        }
-    }
+
+<head>
+    <link rel="stylesheet" href="css/movieCard.css">
+</head>
+
+<div class="card">
+  <img src="@movie.Image" alt="Movie image">
+  <div class="container">
+    <h4><b>@movie.Title</b></h4> 
+    <p>@movie.Description</p> 
+  </div>
 </div>
+
