@@ -1,0 +1,24 @@
+<div style="width: fit-content; border: 2px solid">
+    <p>Title: @movie.Title</p>
+    <p>Description: @movie.Description</p>
+    <p>Director: @movie.Director</p>
+    <p>Image: @movie.Image </p>
+    <p>AvgRating: @movie.AvgRating</p>
+    <p>NumberOfVotes: @movie.NumberOfVotes</p>
+    @foreach (var actor in movie.Actors)
+    {
+        <p>Actor: @actor</p>
+    }
+    @if (movie.Comments == null)
+    {
+        <p>No comments</p>
+    }
+    else
+    {
+        @foreach (var comment in movie.Comments)
+        {
+            <p>Username: @comment.userName</p>
+            <p>Comment: @comment.comment</p>                              
+        }
+    }
+</div>
