@@ -1,11 +1,13 @@
-namespace WebAssemblySEP6.Pages;
-
-public partial class Counter
+namespace WebAssemblySEP6.Pages
 {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+    public partial class Counter
     {
-        currentCount++;
+        private int currentCount = 0;
+
+        private void IncrementCount()
+        {
+            currentCount++;
+        }
     }
 }

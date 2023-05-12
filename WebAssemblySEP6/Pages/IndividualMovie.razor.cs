@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 using WebAssemblySEP6.Communication;
 using WebAssemblySEP6.Model;
 
-namespace WebAssemblySEP6.Pages;
-
-public partial class IndividualMovie
+namespace WebAssemblySEP6.Pages
 {
-    private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
-    private int movieId;
-
-    private Movie movie = new();
-    
-    protected override async Task OnInitializedAsync()
+    public partial class IndividualMovie
     {
-        movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
-    }
-    
-    public void AddComment() {
+        private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
+        private int movieId;
+
+        private Movie movie = new();
+
+        protected override async Task OnInitializedAsync()
+        {
+            movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
+        }
+
+        public void AddComment()
+        {
+
+        }
+
 
     }
-
-
 }

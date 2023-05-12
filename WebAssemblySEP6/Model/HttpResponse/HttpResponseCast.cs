@@ -1,11 +1,11 @@
 using System.Text.Json.Serialization;
 
-namespace WebAssemblySEP6.Model.HttpResponse;
-
-public class HttpResponseCast
+namespace WebAssemblySEP6.Model.HttpResponse
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-    [JsonPropertyName("character")]
-    public string Character { get; set; }
+
+    public class HttpResponseCast
+    {
+        [JsonPropertyName("name")] public string Name { get; set; }
+        [JsonPropertyName("character")] public string Character { get; set; }
+    }
 }
