@@ -1,15 +1,18 @@
+using System.Threading.Tasks;
 using WebAssemblySEP6.Model;
 using WebAssemblySEP6.Communication;
 
-namespace WebAssemblySEP6.Pages;
-
-public partial class FetchData
+namespace WebAssemblySEP6.Pages
 {
-    private IForecastCommunication communication = new ForecastCommunication();
-    private WeatherForecast[]? forecasts;
 
-    protected override async Task OnInitializedAsync()
+    public partial class FetchData
     {
-        //forecasts = await communication.GetForecast();
+        private IForecastCommunication communication = new ForecastCommunication();
+        private WeatherForecast[]? forecasts;
+
+        protected override async Task OnInitializedAsync()
+        {
+            //forecasts = await communication.GetForecast();
+        }
     }
 }

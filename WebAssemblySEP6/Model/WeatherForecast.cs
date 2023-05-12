@@ -1,4 +1,6 @@
-namespace WebAssemblySEP6.Model;
+using System;
+
+namespace WebAssemblySEP6.Model{
 
 public class WeatherForecast
 {
@@ -9,4 +11,5 @@ public class WeatherForecast
     public string? Summary { get; set; }
 
     public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
+}
 }
