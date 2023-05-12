@@ -1,0 +1,19 @@
+@page "/add-comment/{Title}/{Id}"
+
+
+<link rel="stylesheet" href="css/addComment.css">
+
+<h1>Add comment to: @Title</h1>
+<!--This is just to test that we can get the id, we will send it to the database with the comment-->
+<p>ID: @Id</p>
+<div class="cont">
+<div class="form">
+  <form action="/action_page.php">
+
+    <input type="text" id="fname" name="firstname" placeholder="Add your comment here.." @bind-value="comment">
+
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
+</div>

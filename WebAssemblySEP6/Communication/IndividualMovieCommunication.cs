@@ -29,6 +29,7 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
         var movie = new Movie
         {
             Title = movieDetails.Title,
+            Id = movieDetails.Id.ToString(),
             Description = movieDetails.Description,
             Directors = new List<string>(),
             Image = $"http://image.tmdb.org/t/p/w500/{movieDetails.Image}",
