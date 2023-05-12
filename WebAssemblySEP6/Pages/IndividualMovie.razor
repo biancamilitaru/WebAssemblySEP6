@@ -1,0 +1,79 @@
+@page "/movie"
+
+<PageTitle>Movie</PageTitle>
+
+<header>
+      <link rel="stylesheet" href="css/individualMovie.css">
+</header>
+
+<table>
+  <td class="backdrop" width="40%">
+    <p>
+        <img src="@movie.Image" width="400px" />
+    </p>
+  </td>
+  <td class="movie" width="60%">
+    <h1>@movie.Title</h1>
+    <p>@movie.Description</p>
+    <p>Directors:</p>
+    @if (movie.Directors != null) {
+        <ul>
+     @foreach (var director in movie.Directors)
+        {
+                <li>@director</li>
+        }
+        </ul>
+    }
+
+  <table>
+        <tr>
+            <td class="column">
+                <p>Average rating: @movie.AvgRating</p>
+            </td>
+            <td class="column">
+                <p>Number of votes: @movie.NumberOfVotes</p>
+            </td>
+        </tr>
+        
+    </table>
+
+     <p>Comments: </p>
+        @if (movie.Comments == null)
+        {
+            <p>
+                <em class="list">No comments</em>
+            </p>
+        }
+        else
+        {
+        <li>
+            @foreach (var comment in movie.Comments)
+                {
+                        <ul class="list">@comment.userName said: @comment.comment</ul>
+                }
+                </li> 
+        }
+
+        <div class="addComment">
+            <button class="btn btn-primary" @onclick="AddComment">Comment</button>
+        </div>
+
+    <p>Actors: </p>
+    @if (movie.Actors != null) {
+        <ul>
+     @foreach (var actor in movie.Actors)
+        {
+                <li class="list">@actor</li>
+        }
+        </ul>
+    }
+  
+       
+    
+    </td>
+    
+  </table>
+  
+
+
+
