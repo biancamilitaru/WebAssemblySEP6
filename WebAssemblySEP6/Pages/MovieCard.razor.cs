@@ -8,13 +8,13 @@ public partial class MovieCard
 {
     [Parameter] 
     public int movieId { get; set; }
-    [Parameter]
-    public Movie movie { get; set; }
 
-    private IMoviePlaceHolder moviePlaceHolder = new MoviePlaceHolder();
+    [Parameter] public Movie movie { get; set; } = new Movie();
+
+    private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
 
     protected override async Task OnInitializedAsync()
     {
-        movie = moviePlaceHolder.GetMovieById(movieId);
+        movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
     }
 }

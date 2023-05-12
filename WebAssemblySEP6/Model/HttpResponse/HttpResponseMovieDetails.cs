@@ -4,6 +4,8 @@ namespace WebAssemblySEP6.Model.HttpResponse;
 
 public class HttpResponseMovieDetails
 {
+    [JsonPropertyName("id")] 
+    public int Id { get; set; }
     [JsonPropertyName("original_title")]
     public string Title { get; set; }
     [JsonPropertyName("overview")]

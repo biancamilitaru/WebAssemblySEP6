@@ -14,12 +14,13 @@ namespace WebAssemblySEP6.Pages;
 public partial class IndividualMovie
 {
     private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
+    private int movieId;
 
     private Movie movie = new();
     
     protected override async Task OnInitializedAsync()
     {
-        movie = await individualMovieCommunication.GetMovieAsync(118340);
+        movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
     }
     
     public void AddComment() {

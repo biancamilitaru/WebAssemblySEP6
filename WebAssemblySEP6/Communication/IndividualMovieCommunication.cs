@@ -21,13 +21,14 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async Task<Movie> GetMovieAsync(int Id)
+    public async Task<Movie> GetMovieByIdAsync(int id)
     {
-        var movieDetails = await GetMovieDetails(Id);
-        var movieCredits = await GetMovieCreditsAsync(Id);
+        var movieDetails = await GetMovieDetails(id);
+        var movieCredits = await GetMovieCreditsAsync(id);
  
         var movie = new Movie
         {
+            Id = movieDetails.Id,
             Title = movieDetails.Title,
             Description = movieDetails.Description,
             Directors = new List<string>(),
@@ -53,13 +54,26 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
         return movie;
     }
 
-    private async Task<HttpResponseMovieDetails> GetMovieDetails(int Id)
+    public async Task<IList<int>> GetMoviesBySearchName(string name)
     {
-        var responseMessage = await httpClient.GetAsync($"https://api.themoviedb.org/3/movie/{Id}");
+        var movies = await GetMovieSearch(name);
+        IList<int> movieToReturn = new List<int>();
+
+        for (int i = 0; i < 10 && i < movies.results.Count; i++)
+        {
+            movieToReturn.Add(movies.results[i].Id);
+        }
+
+        return movieToReturn;
+    }
+
+    private async Task<HttpResponseMovieDetails> GetMovieDetails(int id)
+    {
+        var responseMessage = await httpClient.GetAsync($"https://api.themoviedb.org/3/movie/{id}");
         
         if (!responseMessage.IsSuccessStatusCode)
         { 
-            throw new Exception($"Error: '{responseMessage.StatusCode}' - {await responseMessage.Content.ReadAsStringAsync()} - when calling GetMovieAsync");
+            throw new Exception($"Error: '{responseMessage.StatusCode}' - {await responseMessage.Content.ReadAsStringAsync()} - when calling GetMovieDetails");
         }
       
         var responseStream = await responseMessage.Content.ReadAsStreamAsync();
@@ -75,9 +89,9 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
         return httpResponse;
     }
 
-    private async Task<HttpResponseCredits> GetMovieCreditsAsync(int Id)
+    private async Task<HttpResponseCredits> GetMovieCreditsAsync(int id)
     {
-        var responseMessage = await httpClient.GetAsync($"https://api.themoviedb.org/3/movie/{Id}/credits");
+        var responseMessage = await httpClient.GetAsync($"https://api.themoviedb.org/3/movie/{id}/credits");
         
         if (!responseMessage.IsSuccessStatusCode)
         { 
@@ -95,6 +109,24 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
         return httpResponse;
     }
 
+    private async Task<HttpResponseSearchMovie> GetMovieSearch(string name)
+    {
+        var responseMessage = await httpClient.GetAsync($"https://api.themoviedb.org/3/search/movie?query={name}");
+        
+        if (!responseMessage.IsSuccessStatusCode)
+        { 
+            throw new Exception($"Error: '{responseMessage.StatusCode}' - {await responseMessage.Content.ReadAsStringAsync()} - when calling GetMovieSearchByName");
+        }
+      
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+        
+        var httpResponse = JsonSerializer.Deserialize<HttpResponseSearchMovie>(responseStream, new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase, 
+            PropertyNameCaseInsensitive = true
+        });
 
+        return httpResponse;
+    }
     
 }
