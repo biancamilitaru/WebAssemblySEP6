@@ -1,0 +1,14 @@
+ol{
+    display: block;
+}
+
+li::marker{
+    font-size: 40px;
+    vertical-align: center;
+   
+}
+
+.cont{
+    display: flex;
+    justify-content: center;
+}
