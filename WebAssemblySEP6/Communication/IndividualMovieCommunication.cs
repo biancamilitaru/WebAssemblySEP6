@@ -25,12 +25,13 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
     {
         var movieDetails = await GetMovieDetails(Id);
         var movieCredits = await GetMovieCreditsAsync(Id);
+ 
         var movie = new Movie
         {
             Title = movieDetails.Title,
             Description = movieDetails.Description,
             Directors = new List<string>(),
-            Image = movieDetails.Image,
+            Image = $"http://image.tmdb.org/t/p/w500/{movieDetails.Image}",
             AvgRating = movieDetails.AvgRating,
             NumberOfVotes = movieDetails.NumberOfVotes,
             Actors = new List<string>()
@@ -69,6 +70,8 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
             PropertyNameCaseInsensitive = true
         });
 
+        
+
         return httpResponse;
     }
 
@@ -91,5 +94,7 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
 
         return httpResponse;
     }
+
+
     
 }

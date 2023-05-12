@@ -19,7 +19,7 @@ public partial class IndividualMovie
     
     protected override async Task OnInitializedAsync()
     {
-        movie = await individualMovieCommunication.GetMovieAsync(1);
+        movie = await individualMovieCommunication.GetMovieAsync(118340);
     }
     
     public void AddComment() {

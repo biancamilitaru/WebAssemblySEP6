@@ -2,52 +2,30 @@
 
 <PageTitle>Movie</PageTitle>
 
-<style>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.column {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-.movie {
-    vertical-align: top;
-}
-
-.list {
-    padding-left: 20px;
-}
-
-</style>
-
-<h1>Specific movie</h1>
-
+<header>
+      <link rel="stylesheet" href="css/individualMovie.css">
+</header>
 
 <table>
-    <tr></tr>
-  <td class="movie" width="50%">
+  <td class="backdrop" width="40%">
     <p>
-        <img src="@movie.Image" width="300px" />
+        <img src="@movie.Image" width="400px" />
     </p>
   </td>
-  <td class="movie" width="50%">
-    <p>Title: @movie.Title</p>
-    <p>Description: @movie.Description</p>
-    <p>Directors: @movie.Directors</p>
-    <p>Actors: </p>
-    @if (movie.Actors != null) {
-        <li>
-     @foreach (var actor in movie.Actors)
+  <td class="movie" width="60%">
+    <h1>@movie.Title</h1>
+    <p>@movie.Description</p>
+    <p>Directors:</p>
+    @if (movie.Directors != null) {
+        <ul>
+     @foreach (var director in movie.Directors)
         {
-                <ul class="list">@movie.Actors</ul>
+                <li>@director</li>
         }
-        </li>
+        </ul>
     }
-    <table>
+
+  <table>
         <tr>
             <td class="column">
                 <p>Average rating: @movie.AvgRating</p>
@@ -58,7 +36,8 @@ table {
         </tr>
         
     </table>
-        <p>Comments: </p>
+
+     <p>Comments: </p>
         @if (movie.Comments == null)
         {
             <p>
@@ -75,9 +54,21 @@ table {
                 </li> 
         }
 
-        <div>
+        <div class="addComment">
             <button class="btn btn-primary" @onclick="AddComment">Comment</button>
         </div>
+
+    <p>Actors: </p>
+    @if (movie.Actors != null) {
+        <ul>
+     @foreach (var actor in movie.Actors)
+        {
+                <li class="list">@actor</li>
+        }
+        </ul>
+    }
+  
+       
     
     </td>
     
