@@ -19,22 +19,20 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           
-          
       - name: Install dependencies
         run: dotnet restore
-        
         
       - name: Install WebAssembly
         run: dotnet add /home/runner/work/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6.csproj package Microsoft.AspNetCore.Components.WebAssembly --version 6.0.16
         
-        
       - name: Install WebAssembly DevServer
         run: dotnet add /home/runner/work/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6.csproj package Microsoft.AspNetCore.Components.WebAssembly.DevServer --version 6.0.16
         
+      - name: Install RestSharp
+        run: dotnet add /home/runner/work/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6.csproj package RestSharp -- version=110.2.0
         
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        
         
       - name: Test
         run: dotnet test --no-restore --verbosity normal
