@@ -15,7 +15,7 @@ public partial class Counter
 
     private void IncrementCount()
     {
-        _userCommunication.AddUserAsync(new User(){Name = "dsh", Password = "pas", EmailAddress = "Email"});
+        _userCommunication.AddUserAsync(new User(){Name = "name1", Password = "password1", EmailAddress = "email1"});
     }
 }
 
