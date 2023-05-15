@@ -3,13 +3,15 @@
   <link rel="stylesheet" href="css/topMovies.css">
 
 <h1>Top 20 movies of all times</h1>
-<div class="cont">
-    <ol>
-        @foreach (var movie in movies)
-        {
-            //Add the moviecard
-            //<li class="movieCard"></li>
-            
-        }
-    </ol>
+
+<div class="wrapper">
+    
+        @foreach (var (movie, index) in movies.Select((movie, index) => (movie, index + 1)))
+            {
+                <div class="movie-item">
+                    <span class="item-number">@index.</span>
+                    <MovieCard movieId=@movie.Id></MovieCard>
+                </div>
+            }
+    
 </div>
