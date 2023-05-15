@@ -1,11 +1,4 @@
-
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using WebAssemblySEP6.Communication;
 using WebAssemblySEP6.Model;
 
@@ -14,9 +7,12 @@ namespace WebAssemblySEP6.Pages
     public partial class IndividualMovie
     {
         private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
-        private int movieId;
+        [Parameter]
+        public int movieId {get;set;}
 
         private Movie movie = new();
+
+     
 
         protected override async Task OnInitializedAsync()
         {

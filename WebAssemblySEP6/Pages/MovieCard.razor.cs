@@ -14,9 +14,18 @@ namespace WebAssemblySEP6.Pages
 
         private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
 
+         [Inject]
+        public NavigationManager NavigationManager {get;set;}
+
         protected override async Task OnInitializedAsync()
         {
             movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
+        }
+
+        
+        private async Task GetIndividualMovie()
+        {
+            NavigationManager.NavigateTo($"/movie/{movieId}");
         }
     }
 }
