@@ -29,7 +29,7 @@ jobs:
         
         
       - name: Install WebAssembly DevServer
-        run: dotnet add package Microsoft.AspNetCore.Components.WebAssembly.DevServer --version 6.0.16
+        run: dotnet add /home/runner/work/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6/WebAssemblySEP6.csproj package Microsoft.AspNetCore.Components.WebAssembly.DevServer --version 6.0.16
         
         
       - name: Build
