@@ -1,0 +1,37 @@
+@page "/SearchMovie"
+
+<link rel="stylesheet" href="css/searchMovie.css">
+
+<div class="searchBar">
+    <h1>Search for a movie</h1>
+    <table>
+        <tr>
+            <td>
+                <div class="text-center">
+                    <input class="search" @bind-value="searchText" placeholder="Search by title"/>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-dark" @onclick="@Search">Search</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="wrapper">
+    @if (!searchedMovies.Any())
+    {
+        @foreach (var id in movieIds)
+        {
+            <MovieCard movieId=@id></MovieCard>
+        }
+    }
+    else
+    {
+        @foreach (var id in searchedMovies)
+        {
+            <MovieCard movieId=@id></MovieCard>
+        }
+    }
+</div>

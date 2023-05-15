@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "WebAssemblySEP6\\bin\\Release\\net6.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/38ba3f54-bef5-488a-8eeb-07b11b63248e/resourceGroups/movieforu/providers/Microsoft.Web/sites/movieforu"
+}
