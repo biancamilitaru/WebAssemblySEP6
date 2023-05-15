@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace WebAssemblySEP6.Model.HttpResponse;
+namespace Model.HttpResponse;
 
 public class HttpResponseCast
 {

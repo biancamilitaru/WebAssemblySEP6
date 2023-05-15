@@ -1,4 +1,4 @@
-using WebAssemblySEP6.Model;
+using Model;
 using System.Net.Http.Json;
 
 namespace WebAssemblySEP6.Communication;

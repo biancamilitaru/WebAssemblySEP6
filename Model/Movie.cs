@@ -1,4 +1,4 @@
-namespace WebAssemblySEP6.Model;
+namespace Model;
 
 public class Movie
 {

@@ -1,4 +1,4 @@
-using WebAssemblySEP6.Model;
+using Model;
 using WebAssemblySEP6.Communication;
 
 namespace WebAssemblySEP6.Pages;
