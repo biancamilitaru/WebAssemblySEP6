@@ -13,3 +13,5 @@ public partial class FetchData
         //forecasts = await communication.GetForecast();
     }
 }
+
+// TODO - delete this file before deploy

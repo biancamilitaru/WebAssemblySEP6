@@ -65,8 +65,6 @@ public class IndividualMovieCommunication : IIndividualMovieCommunication
             PropertyNameCaseInsensitive = true
         });
 
-        
-
         return httpResponse;
     }
 
