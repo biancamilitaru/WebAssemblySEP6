@@ -5,7 +5,6 @@ using Model;
 
 namespace WebAssemblySEP6.Communication
 {
-
     public class IndividualMovieCommunication : IIndividualMovieCommunication
     {
         private HttpClient httpClient;
@@ -82,13 +81,10 @@ namespace WebAssemblySEP6.Communication
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     PropertyNameCaseInsensitive = true
                 });
-
-        return httpResponse;
-    }
-
-
-            return httpResponse;
+            
+            return httpResponse; 
         }
+    
 
         private async Task<HttpResponseCredits> GetMovieCreditsAsync(int id)
         {
@@ -140,7 +136,6 @@ namespace WebAssemblySEP6.Communication
                 Console.WriteLine(e.Message);
                 throw;
             }
-            
            
         }
 

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using WebAssemblySEP6.Communication;
-using WebAssemblySEP6.Model;
+using Model;
 
 namespace WebAssemblySEP6.Pages
 {
@@ -14,7 +14,7 @@ namespace WebAssemblySEP6.Pages
 
         private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
 
-         [Inject]
+        [Inject]
         public NavigationManager NavigationManager {get;set;}
 
         protected override async Task OnInitializedAsync()
@@ -22,7 +22,6 @@ namespace WebAssemblySEP6.Pages
             movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
         }
 
-        
         private async Task GetIndividualMovie()
         {
             NavigationManager.NavigateTo($"/movie/{movieId}");

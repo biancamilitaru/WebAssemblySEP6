@@ -7,12 +7,9 @@ namespace WebAssemblySEP6.Pages
     public partial class IndividualMovie
     {
         private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
-        [Parameter]
-        public int movieId {get;set;}
+        [Parameter] public int movieId { get; set; }
 
         private Movie movie = new();
-
-     
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,6 +19,7 @@ namespace WebAssemblySEP6.Pages
         public void AddComment()
         {
 
+        }
     }
 
 }
