@@ -1,0 +1,17 @@
+@page "/moviecard/{movieId:int}"
+
+<head>
+    <link rel="stylesheet" href="css/movieCard.css">
+</head>
+
+<a @onclick="@GetIndividualMovie">
+<div class="card">
+  <div class="image">
+  <img src="@movie.Image" alt="Movie image">
+  </div>
+  <div class="container">
+    <h4><b>@movie.Title</b></h4> 
+    <p>@movie.Description</p> 
+  </div>
+</div>
+</a>

@@ -1,8 +1,10 @@
-namespace WebAssemblySEP6.Model;
-
-public class Comment
+namespace WebAssemblySEP6.Model
 {
-     public string userName { get; set; }
 
-      public string comment { get; set; }
+    public class Comment
+    {
+        public string userName { get; set; }
+
+        public string comment { get; set; }
+    }
 }
