@@ -32,6 +32,26 @@ public class CommentCommunication : ICommentCommunication
         }
     }
 
+    public async Task<Comment> GetCommentById(int commentId)
+    {
+         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/commentId/{commentId}");
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        var httpResponse = JsonSerializer.Deserialize<Comment>(responseStream,
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
+
+        return httpResponse;
+    }
+
     public async Task<IList<Comment>> GetCommentsForMovie(int movieId)
     {
          HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{movieId}");

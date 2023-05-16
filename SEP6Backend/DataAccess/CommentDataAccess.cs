@@ -125,4 +125,48 @@ public class CommentDataAccess : ICommentDataAccess
 
         return commentsToReturn;
     }
+
+    public async Task<Comment> GetCommentById(int commentId)
+    {
+         var commentToReturn = new Comment();
+        try
+        {
+            string commandString = $"SELECT * FROM [comment] WHERE commentId=@commentId";
+            await using (connection = new SqlConnection(builder.ConnectionString))
+            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            {
+                await connection.OpenAsync();
+                command.Parameters.AddWithValue("@commentId", commentId);
+
+                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        
+                             var comment = new Comment
+                        {
+                            CommentId= reader.GetInt32(0),
+                            CommentText = reader.GetString(1),
+                            MovieId = reader.GetInt32(2),
+                            UserId = reader.GetInt32(3),
+                        };
+                        
+                        
+                        
+                        commentToReturn = comment;
+                        
+                        Console.WriteLine($"{comment.CommentText}, {comment.UserId}");
+                    }
+                }
+
+                await connection.CloseAsync();
+            }
+        }
+        catch (Exception ex)
+        { 
+            Console.WriteLine("Error: " + ex.Message); 
+        }
+
+        return commentToReturn;
+    }
 }

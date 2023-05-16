@@ -83,4 +83,48 @@ public class UserDataAccess : IUserDataAccess
 
         return usersToReturn;
     }
+
+    public async Task<User> GetUserById(int userId)
+    {
+        var userToReturn = new User();
+        try
+        {
+            string commandString = $"SELECT * FROM [user] WHERE userId=@userId";
+            await using (connection = new SqlConnection(builder.ConnectionString))
+            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            {
+                await connection.OpenAsync();
+                command.Parameters.AddWithValue("@userId", userId);
+
+                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        
+                             var user = new User
+                        {
+                            UserId = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            EmailAddress = reader.GetString(2),
+                            Password = reader.GetString(3),
+                        };
+                        
+                        
+                        
+                        userToReturn = user;
+                        
+                        Console.WriteLine($"{user.Name}, {user.UserId}");
+                    }
+                }
+
+                await connection.CloseAsync();
+            }
+        }
+        catch (Exception ex)
+        { 
+            Console.WriteLine("Error: " + ex.Message); 
+        }
+
+        return userToReturn;
+    }
 }

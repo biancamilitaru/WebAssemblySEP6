@@ -31,6 +31,26 @@ public class UserCommunication : IUserCommunication
         }
     }
 
+    public async Task<User> GetUserById(int userId)
+    {
+         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{userId}");
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        var httpResponse = JsonSerializer.Deserialize<User>(responseStream,
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
+
+        return httpResponse;
+    }
+
     public async Task<bool> IsEmailAddressUsed(User user)
     {
         bool isAdressUsed = false;

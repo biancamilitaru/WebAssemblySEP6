@@ -6,4 +6,6 @@ public interface IUserCommunication
 {
     public Task AddUserAsync(User userToAdd);
     public Task<bool> IsEmailAddressUsed(User user);
+
+    public Task<User> GetUserById(int userId);
 }

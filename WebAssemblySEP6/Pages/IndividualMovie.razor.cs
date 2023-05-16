@@ -13,16 +13,20 @@ namespace WebAssemblySEP6.Pages
     public NavigationManager NavigationManager { get; set; }
     private IIndividualMovieCommunication individualMovieCommunication;
     private ICommentCommunication commentCommunication;
+    private IUserCommunication userCommunication;
     [Parameter] public int movieId { get; set; }
 
     private IList<Comment> comments = new List<Comment>();
 
     private Movie movie = new();
+    private User user = new();
 
      protected override async Task OnInitializedAsync()
     {
         individualMovieCommunication = new IndividualMovieCommunication();
         commentCommunication = new CommentCommunication();
+        userCommunication = new UserCommunication();
+
         movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
         comments = await commentCommunication.GetCommentsForMovie(movieId);
         foreach (Comment comment in comments)

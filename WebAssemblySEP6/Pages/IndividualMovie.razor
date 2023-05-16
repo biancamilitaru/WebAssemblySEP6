@@ -48,11 +48,11 @@
         {
         <ul>
             @foreach (var comment in comments)
-                {
-                    <!--TODO: We need to show the username here instead of the ID, but it is ok for now-->
-                        <li class="list">@comment.UserId said: @comment.CommentText</li>
-                }
-                </ul> 
+            {
+                <CommentComponent commentId="comment.CommentId" />
+            }
+          
+            </ul> 
         }
 
         <div class="addComment">

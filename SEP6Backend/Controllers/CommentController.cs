@@ -57,4 +57,19 @@ public class CommentController:ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    [Route("commentId/{commentId:int}")]
+    public async Task<ActionResult<IList<Comment>>> GetCommentById([FromRoute]int commentId)
+    {
+        try
+        {
+            var comments = await commentDataAccess.GetCommentById(commentId);
+            return Ok(comments);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

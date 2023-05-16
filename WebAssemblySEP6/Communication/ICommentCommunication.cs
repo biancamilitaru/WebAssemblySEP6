@@ -10,4 +10,6 @@ public interface ICommentCommunication
 
     public Task<IList<Comment>> GetCommentsForMovie(int movieId);
 
+    public Task<Comment> GetCommentById(int commentId);
+
 }
