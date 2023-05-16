@@ -1,15 +1,20 @@
-using WebAssemblySEP6.Communication;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Model;
+using WebAssemblySEP6.Communication;
+using WebAssemblySEP6.Model;
 
 namespace WebAssemblySEP6.Pages
 {
     public partial class IndividualMovie
     {
         private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
-        [Parameter] public int movieId { get; set; }
+        [Parameter]
+        public int movieId {get;set;}
 
         private Movie movie = new();
+
+     
 
         protected override async Task OnInitializedAsync()
         {
@@ -20,6 +25,7 @@ namespace WebAssemblySEP6.Pages
         {
 
         }
-    }
 
+
+    }
 }

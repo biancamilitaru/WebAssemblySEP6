@@ -94,17 +94,12 @@ public class UserDataAccess : IUserDataAccess
             await using (SqlCommand command = new SqlCommand(commandString, connection))
             {
                 await connection.OpenAsync();
-                Console.WriteLine(email);
-                Console.WriteLine(commandString);
                 command.Parameters.AddWithValue("@email", email);
-                Console.WriteLine(command.CommandText);
-                Console.WriteLine(command.Parameters[0].Value);
-
+                
                 await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     if (reader.Read())
                     { 
-                        Console.WriteLine("reading");
                         userToReturn = new User
                         {
                             UserId = reader.GetInt32(0),
