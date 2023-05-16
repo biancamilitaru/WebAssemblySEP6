@@ -31,10 +31,10 @@ public class UserCommunication : IUserCommunication
         }
     }
 
-    public async Task<bool> IsEmailAddressUsed(string email)
+    public async Task<bool> IsEmailAddressUsed(User user)
     {
-        bool addressUsed = false;
-        string emailToJson = JsonSerializer.Serialize(email);
+        bool isAdressUsed = false;
+        string emailToJson = JsonSerializer.Serialize(user.EmailAddress);
 
         StringContent content = new StringContent(
             emailToJson,
@@ -61,11 +61,15 @@ public class UserCommunication : IUserCommunication
         {
             foreach (var userFromDb in httpResponse)
             {
-                if (userFromDb.EmailAddress.Equals(email))
-                    addressUsed = true;
+                if (userFromDb.EmailAddress.Equals(user.EmailAddress))
+                    isAdressUsed = true;
+            }
+            if (!isAdressUsed)
+            {
+                user.UserId = httpResponse.Last().UserId + 1;
             }
         }
-
-        return addressUsed;
+        
+        return isAdressUsed;
     }
 }

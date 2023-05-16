@@ -5,5 +5,5 @@ namespace WebAssemblySEP6.Communication;
 public interface IUserCommunication
 {
     public Task AddUserAsync(User userToAdd);
-    public Task<bool> IsEmailAddressUsed(string email);
+    public Task<bool> IsEmailAddressUsed(User user);
 }
