@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Components;
 using Model;
 using WebAssemblySEP6.Communication;
 
@@ -7,42 +8,38 @@ namespace WebAssemblySEP6.Pages
     public partial class SignUp
 
     {
-
-        [Inject] private NavigationManager NavigationManager { get; set; }
-
-        [Inject]private IUserCommunication UserService { get; set; }
-        [Inject] private ILogger<SignUp> Logger { get; set; }
-
+        private NavigationManager navigationManager { get; set; }
+        private IUserCommunication userService { get; set; }
         private User user;
         public string LoginMessage { get; set; }
         
 
         protected override void OnInitialized()
         {
-            UserService = new UserCommunication();
+            userService = new UserCommunication();
             user = new User();
         }
         
         private async Task RegisterUser()
         {
-            Logger.LogInformation("In the register user method 1");
-            if (await UserService.VerifyEmailAddressAsync(user) == false)
+            if (await userService.IsEmailAddressUsed(user.EmailAddress) == false) 
             {
-                var returnedUser = await UserService.RegisterUserAsync(user);
-                Logger.LogInformation("In the register user method 2");
-                if (returnedUser != null && returnedUser.EmailAddress != null)
-                {
-                    LoginMessage = "Account successfully created";
-                    NavigationManager.NavigateTo("/counter");
-                }
-                else
-                {
-                    LoginMessage = "Error in account creation";
-                }
+                Console.WriteLine("email not used");
+                //var returnedUser = await userService.AddUserAsync(user);
+                //if (returnedUser != null && returnedUser.EmailAddress != null)
+                //{
+                    //LoginMessage = "Account successfully created";
+                    //navigationManager.NavigateTo("/counter");
+                //}
+                //else
+                //{
+                    //LoginMessage = "Error in account creation";
+                //}
             }
             else
             {
-                LoginMessage = "Email address already in use";
+                Console.WriteLine("email used");
+                //LoginMessage = "Email address already in use";
             }
         }
     }

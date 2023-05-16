@@ -17,8 +17,6 @@ public class UserCommunication : IUserCommunication
     public async Task AddUserAsync(User userToAdd)
     {
         string userToAddAsJson = JsonSerializer.Serialize(userToAdd);
-        
-        Console.WriteLine(userToAddAsJson);
 
         StringContent content = new StringContent(
             userToAddAsJson,
@@ -33,13 +31,41 @@ public class UserCommunication : IUserCommunication
         }
     }
 
-    public Task<User> RegisterUserAsync(User user)
+    public async Task<bool> IsEmailAddressUsed(string email)
     {
-        throw new NotImplementedException();
-    }
+        bool addressUsed = false;
+        string emailToJson = JsonSerializer.Serialize(email);
 
-    public Task<bool> VerifyEmailAddressAsync(User user)
-    {
-        throw new NotImplementedException();
+        StringContent content = new StringContent(
+            emailToJson,
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        var httpResponse = JsonSerializer.Deserialize<IList<User>>(responseStream,
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
+
+        if (httpResponse != null)
+        {
+            foreach (var userFromDb in httpResponse)
+            {
+                if (userFromDb.EmailAddress.Equals(email))
+                    addressUsed = true;
+            }
+        }
+
+        return addressUsed;
     }
 }
