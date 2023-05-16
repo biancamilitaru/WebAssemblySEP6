@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-
-namespace WebAssemblySEP6.Model
+namespace Model
 {
-
     public class Movie
     {
         public int Id { get; set; }

@@ -1,13 +1,22 @@
-namespace WebAssemblySEP6.Pages
+using Model;
+using WebAssemblySEP6.Communication;
+
+namespace WebAssemblySEP6.Pages;
+
+public partial class Counter
 {
+    private int currentCount = 0;
+    private IUserCommunication _userCommunication;
 
-    public partial class Counter
+    protected override async Task OnInitializedAsync()
     {
-        private int currentCount = 0;
+        _userCommunication = new UserCommunication();
+    }
 
-        private void IncrementCount()
-        {
-            currentCount++;
-        }
+    private void IncrementCount()
+    {
+        _userCommunication.AddUserAsync(new User(){UserId = 3, Name = "name1", Password = "password1", EmailAddress = "email1"});
     }
 }
+
+// TODO - delete this file before deploy

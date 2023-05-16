@@ -1,11 +1,10 @@
-using System.Threading.Tasks;
-using WebAssemblySEP6.Model;
+using Model;
 
-namespace WebAssemblySEP6.Communication
+namespace WebAssemblySEP6.Communication;
+
+public interface IForecastCommunication
 {
-
-    public interface IForecastCommunication
-    {
-        public Task<WeatherForecast[]> GetForecast();
-    }
+    public Task<WeatherForecast[]> GetForecast();
 }
+
+// TODO - delete this file before deploy

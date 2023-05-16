@@ -1,18 +1,17 @@
-using System.Threading.Tasks;
-using WebAssemblySEP6.Model;
+using Model;
 using WebAssemblySEP6.Communication;
 
-namespace WebAssemblySEP6.Pages
+namespace WebAssemblySEP6.Pages;
+
+public partial class FetchData
 {
+    private IForecastCommunication communication = new ForecastCommunication();
+    private WeatherForecast[]? forecasts;
 
-    public partial class FetchData
+    protected override async Task OnInitializedAsync()
     {
-        private IForecastCommunication communication = new ForecastCommunication();
-        private WeatherForecast[]? forecasts;
-
-        protected override async Task OnInitializedAsync()
-        {
-            //forecasts = await communication.GetForecast();
-        }
+        //forecasts = await communication.GetForecast();
     }
 }
+
+// TODO - delete this file before deploy
