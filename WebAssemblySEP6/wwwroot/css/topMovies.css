@@ -1,0 +1,28 @@
+.wrapper{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    align-items: start;
+}
+
+
+.movie-item {
+    display: flex;
+    align-items: center;
+}
+
+.item-number {
+    font-size: 38px;
+    font-weight: bold;
+}
+
+li::marker{
+    font-size: 40px;
+    vertical-align: center;
+   
+}
+
+.cont{
+    display: flex;
+    justify-content: center;
+}

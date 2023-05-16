@@ -1,25 +1,18 @@
-
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using WebAssemblySEP6.Communication;
-using WebAssemblySEP6.Model;
+using Microsoft.AspNetCore.Components;
+using Model;
 
-
-
-namespace WebAssemblySEP6.Pages;
-
-public partial class IndividualMovie
+namespace WebAssemblySEP6.Pages
 {
 
-    [Inject]
+    
+    public partial class IndividualMovie
+    {
+
+        [Inject]
     public NavigationManager NavigationManager { get; set; }
     private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
+    [Parameter] public int movieId { get; set; }
 
     private Movie movie = new();
 
@@ -27,7 +20,7 @@ public partial class IndividualMovie
     
     protected override async Task OnInitializedAsync()
     {
-        movie = await individualMovieCommunication.GetMovieAsync(118340);
+        movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
     }
     
     public async void AddComment() {
@@ -36,5 +29,7 @@ public partial class IndividualMovie
         NavigationManager.NavigateTo($"/add-comment/{Title}/{Id}");
     }
 
+
+    }
 
 }
