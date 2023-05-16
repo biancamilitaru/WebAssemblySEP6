@@ -1,12 +1,10 @@
-﻿using System.Dynamic;
-using System.Threading.Tasks;
-using WebAssemblySEP6.Model;
+using Model;
 
-namespace WebAssemblySEP6.Communication
+namespace WebAssemblySEP6.Communication;
+
+public interface IUserCommunication
 {
-    public interface IUserCommunication
-    {
-        Task<User> RegisterUserAsync(User user);
-        Task<bool> VerifyEmailAddressAsync(User user);
-    }
+    public Task AddUserAsync(User userToAdd);
+    Task<User> RegisterUserAsync(User user);
+    Task<bool> VerifyEmailAddressAsync(User user);
 }
