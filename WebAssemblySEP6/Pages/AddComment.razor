@@ -1,4 +1,4 @@
-@page "/add-comment/{Title}/{Id}"
+@page "/add-comment/{Title}/{Id:int}"
 
 
 <link rel="stylesheet" href="css/addComment.css">
@@ -8,12 +8,12 @@
 <p>ID: @Id</p>
 <div class="cont">
 <div class="form">
-  <form action="/action_page.php">
+  <EditForm Model="@comment"  OnValidSubmit="@postCommentAsync">
 
-    <input type="text" id="fname" name="firstname" placeholder="Add your comment here.." @bind-value="comment">
+    <input type="text" placeholder="Add your comment here.." @bind-value="commentText">
 
   
     <input type="submit" value="Submit">
-  </form>
+ </EditForm>
 </div>
 </div>

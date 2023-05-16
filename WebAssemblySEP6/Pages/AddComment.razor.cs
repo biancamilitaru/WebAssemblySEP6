@@ -6,21 +6,44 @@ namespace WebAssemblySEP6.Pages;
 
 public partial class AddComment
 {
-    [Parameter]
-    public string? Title {get;set;}
+        [Inject]
+        private NavigationManager navigationManager { get; set; }
+        private ICommentCommunication commentCommunication { get; set; }
 
-    [Parameter]
-    public string? Id {get;set;}
+        private string commentText;
+        private Comment comment;
+        [Parameter]
+        public string? Title {get;set;}
 
-    private string comment;
+        [Parameter]
+        public int Id {get;set;}
 
-    //private IAddCommentCommunication addCommentCommunication = new AddCommentCommunication();
 
-    public async void postCommentAsync(){
-        
-        //initialize comment and send it to the database
-        //Open another page
-    }
+       protected override void OnInitialized()
+        {
+            commentCommunication = new CommentCommunication();
+            comment = new Comment();
+            
+        }
+
+
+        public async Task postCommentAsync()
+        {
+
+            comment = new Comment{
+                UserId =1,
+                MovieId=Id,
+                CommentText=commentText,
+
+            };
+            await commentCommunication.IncreaseCommendId(comment);
+            Console.WriteLine("Sending comment to db");
+            await commentCommunication.AddCommentAsync(comment);
+            var movieId = comment.MovieId;
+            Console.WriteLine("!!!!!"+movieId);
+            navigationManager.NavigateTo("/movie/{moviId}");
+            
+        }
 
     
 }

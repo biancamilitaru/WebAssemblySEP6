@@ -3,11 +3,12 @@ namespace Model;
 public class Comment
 {
      public int UserId { get; set;}
+     public int MovieId { get; set;}
+     public DateTime Date { get; set;}
      public string CommentText { get; set; }
 
-     public string CommentId { get; set; }
+     public int CommentId { get; set; }
 
-     public string Username { get; set; }
 
      
 }
