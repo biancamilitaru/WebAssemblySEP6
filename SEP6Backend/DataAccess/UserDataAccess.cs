@@ -33,7 +33,7 @@ public class UserDataAccess : IUserDataAccess
                 command.Parameters.AddWithValue("@password", user.Password);
                 command.Parameters.AddWithValue("@name", user.Name);
                 command.Parameters.AddWithValue("@email", user.EmailAddress);
-
+                
                 await command.ExecuteNonQueryAsync();
                 await connection.CloseAsync();
             }
@@ -82,5 +82,49 @@ public class UserDataAccess : IUserDataAccess
         }
 
         return usersToReturn;
+    }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        var userToReturn = new User();
+        try
+        {
+            string commandString = $"SELECT * FROM [user] WHERE email=@email";
+            await using (connection = new SqlConnection(builder.ConnectionString))
+            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            {
+                await connection.OpenAsync();
+                Console.WriteLine(email);
+                Console.WriteLine(commandString);
+                command.Parameters.AddWithValue("@email", email);
+                Console.WriteLine(command.CommandText);
+                Console.WriteLine(command.Parameters[0].Value);
+
+                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.Read())
+                    { 
+                        Console.WriteLine("reading");
+                        userToReturn = new User
+                        {
+                            UserId = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            EmailAddress = reader.GetString(2),
+                            Password = reader.GetString(3)
+                        };
+                        
+                        Console.WriteLine($"{userToReturn.UserId}, {userToReturn.Name}, {userToReturn.Password}, {userToReturn.EmailAddress}");
+                    }
+                }
+
+                await connection.CloseAsync();
+            }
+        }
+        catch (Exception ex)
+        { 
+            Console.WriteLine("Error: " + ex.Message); 
+        }
+
+        return userToReturn;
     }
 }

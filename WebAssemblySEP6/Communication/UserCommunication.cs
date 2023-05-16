@@ -34,13 +34,6 @@ public class UserCommunication : IUserCommunication
     public async Task<bool> IsEmailAddressUsed(User user)
     {
         bool isAdressUsed = false;
-        string emailToJson = JsonSerializer.Serialize(user.EmailAddress);
-
-        StringContent content = new StringContent(
-            emailToJson,
-            Encoding.UTF8,
-            "application/json"
-        );
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
         if (!responseMessage.IsSuccessStatusCode)
@@ -71,5 +64,32 @@ public class UserCommunication : IUserCommunication
         }
         
         return isAdressUsed;
+    }
+
+    public async Task<bool> LogIn(User user)
+    {
+        var userReturned = new User();
+        bool isPasswordCorrect = true;
+        HttpResponseMessage responseMessage = await httpClient.GetAsync(uri+$"/{user.EmailAddress}");
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        userReturned = JsonSerializer.Deserialize<User>(responseStream, new JsonSerializerOptions() 
+             {
+                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase, 
+                 PropertyNameCaseInsensitive = true
+                 
+             });
+
+        if (!userReturned.Password.Equals(user.Password))
+        {
+            isPasswordCorrect = false;
+        }
+        
+        return isPasswordCorrect;
     }
 }
