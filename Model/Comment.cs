@@ -2,7 +2,12 @@ namespace Model;
 
 public class Comment
 {
-     public string userName { get; set; }
+     public int UserId { get; set;}
+     public string CommentText { get; set; }
 
-      public string comment { get; set; }
+     public string CommentId { get; set; }
+
+     public string Username { get; set; }
+
+     
 }
