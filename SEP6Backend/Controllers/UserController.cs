@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -31,19 +32,20 @@ namespace SEP6Backend.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<IList<User>>> GetAllUsers()
+        {
+            try
+            {
+                var userToReturn = await userDataAccess.GetAllUsersAsync();
+                return Ok(userToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IList<User>>> GetAllUsers()
-    {
-        try
-        {
-            var userToReturn = await userDataAccess.GetAllUsersAsync();
-            return Ok(userToReturn);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 }
