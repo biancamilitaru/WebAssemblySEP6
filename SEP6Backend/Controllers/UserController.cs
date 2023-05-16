@@ -1,31 +1,35 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using SEP6Backend.DataAccess;
 
-namespace SEP6Backend.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class UserController:ControllerBase
+namespace SEP6Backend.Controllers
 {
-    private IUserDataAccess userDataAccess;
 
-    public UserController()
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
     {
-        userDataAccess = new UserDataAccess();
-    }
+        private IUserDataAccess userDataAccess;
 
-    [HttpPost]
-    public async Task<ActionResult<User>> AddUser([FromBody] User user)
-    {
-        try
+        public UserController()
         {
-            await userDataAccess.AddUserAsync(user);
-            return Created($"/{user.UserId}", user);
+            userDataAccess = new UserDataAccess();
         }
-        catch (Exception e)
+
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUser([FromBody] User user)
         {
-            return StatusCode(500, e.Message);
+            try
+            {
+                await userDataAccess.AddUserAsync(user);
+                return Created($"/{user.UserId}", user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

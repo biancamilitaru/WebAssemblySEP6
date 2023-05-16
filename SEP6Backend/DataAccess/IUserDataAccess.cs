@@ -1,8 +1,11 @@
+using System.Threading.Tasks;
 using Model;
 
-namespace SEP6Backend.DataAccess;
-
-public interface IUserDataAccess
+namespace SEP6Backend.DataAccess
 {
-    public Task AddUserAsync(User user);
+
+    public interface IUserDataAccess
+    {
+        public Task AddUserAsync(User user);
+    }
 }

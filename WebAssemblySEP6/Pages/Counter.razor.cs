@@ -1,21 +1,25 @@
+using System.Threading.Tasks;
 using Model;
 using WebAssemblySEP6.Communication;
 
-namespace WebAssemblySEP6.Pages;
-
-public partial class Counter
+namespace WebAssemblySEP6.Pages
 {
-    private int currentCount = 0;
-    private IUserCommunication _userCommunication;
 
-    protected override async Task OnInitializedAsync()
+    public partial class Counter
     {
-        _userCommunication = new UserCommunication();
-    }
+        private int currentCount = 0;
+        private IUserCommunication _userCommunication;
 
-    private void IncrementCount()
-    {
-        _userCommunication.AddUserAsync(new User(){UserId = 2, Name = "name1", Password = "password1", EmailAddress = "email1"});
+        protected override async Task OnInitializedAsync()
+        {
+            _userCommunication = new UserCommunication();
+        }
+
+        private void IncrementCount()
+        {
+            _userCommunication.AddUserAsync(new User()
+                {UserId = 2, Name = "name1", Password = "password1", EmailAddress = "email1"});
+        }
     }
 }
 

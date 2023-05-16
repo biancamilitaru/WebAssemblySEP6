@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Model;
 using WebAssemblySEP6.Communication;
 using WebAssemblySEP6.Model;
 

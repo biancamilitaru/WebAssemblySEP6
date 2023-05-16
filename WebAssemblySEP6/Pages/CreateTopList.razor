@@ -10,7 +10,7 @@
 <!-- Title section -->
 <div class ="title">
 <label for="toplistName">Toplist Name:</label>
-        <input id="toplistName" type="text" @bind="topListTitle" placeholder="Title of the top list"/>
+        <input id="toplistName" type="text" @bind="topList.Title" placeholder="Title of the top list"/>
 </div>        
 
 <text> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</text>
@@ -71,11 +71,11 @@
         }
         else
         {
-            @foreach (var id in selectedMovies)
+            @foreach (var movie in selectedMovies)
             {
                 <div class="selected-movies">
-                    <li>@id
-                        <button class="remove-button" @onclick="(() => RemoveFromSelected(id))">Remove</button>
+                    <li>@movie.Title  
+                        <button class="remove-button" @onclick="(() => RemoveFromSelected(movie))">Remove</button>
                     </li>
                 </div>
             }
