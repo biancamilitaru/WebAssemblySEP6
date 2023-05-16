@@ -1,16 +1,10 @@
-using WebAssemblySEP6.Model;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using WebAssemblySEP6.Model.HttpResponse;
+using Model.HttpResponse;
+using Model;
 
 namespace WebAssemblySEP6.Communication
 {
-
     public class IndividualMovieCommunication : IIndividualMovieCommunication
     {
         private HttpClient httpClient;
@@ -87,11 +81,10 @@ namespace WebAssemblySEP6.Communication
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     PropertyNameCaseInsensitive = true
                 });
-
-
-
-            return httpResponse;
+            
+            return httpResponse; 
         }
+    
 
         private async Task<HttpResponseCredits> GetMovieCreditsAsync(int id)
         {
@@ -143,7 +136,6 @@ namespace WebAssemblySEP6.Communication
                 Console.WriteLine(e.Message);
                 throw;
             }
-            
            
         }
 
