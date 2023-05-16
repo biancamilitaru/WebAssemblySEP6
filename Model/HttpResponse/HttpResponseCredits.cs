@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Model.HttpResponse;
-
-public class HttpResponseCredits
+namespace Model.HttpResponse
 {
-    [JsonPropertyName("cast")] 
-    public IList<HttpResponseCast> castMembers { get; set; }
 
-    [JsonPropertyName("crew")]
-    public IList<HttpResponseCrew> crewMembers { get; set; }
+    public class HttpResponseCredits
+    {
+        [JsonPropertyName("cast")] public IList<HttpResponseCast> castMembers { get; set; }
+
+        [JsonPropertyName("crew")] public IList<HttpResponseCrew> crewMembers { get; set; }
+    }
 }

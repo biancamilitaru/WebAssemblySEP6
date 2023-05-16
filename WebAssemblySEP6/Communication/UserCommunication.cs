@@ -1,75 +1,86 @@
-﻿using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Model;
+using WebAssemblySEP6.Communication;
 
-namespace WebAssemblySEP6.Communication;
-
-public class UserCommunication : IUserCommunication
+namespace WebAssemblySEP6.Communication
 {
-    private string uri = "https://localhost:7044/User";
-    private HttpClient httpClient;
 
-    public UserCommunication()
+    public class UserCommunication : IUserCommunication
     {
-        httpClient = new HttpClient();
-    }
+        private string uri = "https://localhost:7044/User";
+        private HttpClient httpClient;
 
-    public async Task AddUserAsync(User userToAdd)
-    {
-        string userToAddAsJson = JsonSerializer.Serialize(userToAdd);
-
-        StringContent content = new StringContent(
-            userToAddAsJson,
-            Encoding.UTF8,
-            "application/json"
-        );
-        
-        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
-        if (!responseMessage.IsSuccessStatusCode)
+        public UserCommunication()
         {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            httpClient = new HttpClient();
         }
-    }
 
-    public async Task<bool> IsEmailAddressUsed(User user)
-    {
-        bool isAdressUsed = false;
-        string emailToJson = JsonSerializer.Serialize(user.EmailAddress);
-
-        StringContent content = new StringContent(
-            emailToJson,
-            Encoding.UTF8,
-            "application/json"
-        );
-
-        HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
-        if (!responseMessage.IsSuccessStatusCode)
+        public async Task AddUserAsync(User userToAdd)
         {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
-        }
-        
-        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+            string userToAddAsJson = JsonSerializer.Serialize(userToAdd);
 
-        var httpResponse = JsonSerializer.Deserialize<IList<User>>(responseStream,
-            new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true
-            });
+            Console.WriteLine(userToAddAsJson);
 
-        if (httpResponse != null)
-        {
-            foreach (var userFromDb in httpResponse)
+            StringContent content = new StringContent(
+                userToAddAsJson,
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+            if (!responseMessage.IsSuccessStatusCode)
             {
-                if (userFromDb.EmailAddress.Equals(user.EmailAddress))
-                    isAdressUsed = true;
-            }
-            if (!isAdressUsed)
-            {
-                user.UserId = httpResponse.Last().UserId + 1;
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
             }
         }
-        
-        return isAdressUsed;
+
+        public async Task<bool> IsEmailAddressUsed(User user)
+        {
+            bool isAdressUsed = false;
+            string emailToJson = JsonSerializer.Serialize(user.EmailAddress);
+
+            StringContent content = new StringContent(
+                emailToJson,
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+            var httpResponse = JsonSerializer.Deserialize<IList<User>>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
+
+            if (httpResponse != null)
+            {
+                foreach (var userFromDb in httpResponse)
+                {
+                    if (userFromDb.EmailAddress.Equals(user.EmailAddress))
+                        isAdressUsed = true;
+                }
+
+                if (!isAdressUsed)
+                {
+                    user.UserId = httpResponse.Last().UserId + 1;
+                }
+            }
+
+            return isAdressUsed;
+        }
     }
 }
