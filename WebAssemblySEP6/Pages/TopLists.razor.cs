@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using WebAssemblySEP6.Communication;
-using WebAssemblySEP6.Model;
+using Model;
 
 namespace WebAssemblySEP6.Pages
 {
@@ -11,7 +11,7 @@ namespace WebAssemblySEP6.Pages
     {
         [Parameter] public int topListId { get; set; }
         [Parameter] public string topListName { get; set; }
-        //private ITopListCommunication topListCommunication = new TopListCommunication();
+        private ITopListCommunication topListCommunication = new TopListCommunication();
 
          [Inject]
         public NavigationManager NavigationManager {get;set;}
@@ -20,8 +20,8 @@ namespace WebAssemblySEP6.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            //topLists=  topListCommunication.GetTopListsAsync();
-            //Todo: implement communication class
+            topLists=  topListCommunication.GetTopListsAsync();
+            //TODO: implement communication class
         }
 
         private async Task deleteTopList()

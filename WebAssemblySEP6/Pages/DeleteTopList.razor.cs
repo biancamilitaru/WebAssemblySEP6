@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using WebAssemblySEP6.Communication;
-using WebAssemblySEP6.Model;
+using Model;
 using Microsoft.AspNetCore.Components;
 
 namespace WebAssemblySEP6.Pages

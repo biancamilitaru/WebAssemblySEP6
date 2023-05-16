@@ -1,3 +1,5 @@
+namespace Model
+{
 public class TopList
     {
         public int Id { get; set; }
@@ -5,3 +7,4 @@ public class TopList
         public string UserName { get; set; }
         
     }
+}
