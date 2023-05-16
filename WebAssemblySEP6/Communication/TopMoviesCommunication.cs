@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Model;
 using Model.HttpResponse;
+using Model;
 
 namespace WebAssemblySEP6.Communication
 {
