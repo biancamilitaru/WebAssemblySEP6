@@ -19,9 +19,9 @@ namespace WebAssemblySEP6.Pages
             movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
         }
 
-        public void AddComment()
+        private void AddComment()
         {
-
+            //Todo: add comment through communication class
         }
 
 

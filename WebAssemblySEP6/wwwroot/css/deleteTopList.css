@@ -1,0 +1,19 @@
+.buttonCont{
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+}
+
+h1{
+    padding-bottom: 50px;
+}
+
+h3{
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.cont{
+    display: flex;
+    justify-content: center;
+}

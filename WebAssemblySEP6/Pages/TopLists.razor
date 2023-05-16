@@ -2,48 +2,28 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="css/topList.css">
 
-<style>
-    {
-  box-sizing: border-box;
-}
-
-ul.list-group {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  width:500px;
-
-}
-
-.container{
-  display: flex;
-  justify-content: center;
-  width:100%;
-}
-
-ul.list-group li {
-  border: 1px solid #ddd;
-  margin-top: -1px; /* Prevent double borders */
-  background-color: #f6f6f6;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  height: 50px;
-}
-</style>
 
 <PageTitle>My Toplists</PageTitle>
 <h1>My toplists</h1>
-
+<div class="bigCont">
+ <button class="btn btn-dark" @onclick="openAddTopListPage">Add top list</button>
+</div>
 <div class="container">
+ 
     <ul class="list-group">
         @foreach (var toplist in topLists)
         {
           <li>
-              <p>@toplist.Title</p>
-            <i class="material-icons">delete</i>
+            <p>
+              <a @onclick="@openTopListPage">
+                @toplist.Title
+              </a>
+            </p>
+            <a @onclick="deleteTopList">
+              <i class="material-icons" >delete</i>
+            </a>
           </li>
         }
     </ul>
