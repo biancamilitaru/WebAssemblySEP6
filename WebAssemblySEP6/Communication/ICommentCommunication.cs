@@ -7,4 +7,7 @@ public interface ICommentCommunication
     public Task AddCommentAsync(Comment commentToAdd);
 
     public Task IncreaseCommendId(Comment comment);
+
+    public Task<IList<Comment>> GetCommentsForMovie(int movieId);
+
 }

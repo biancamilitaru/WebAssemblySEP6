@@ -32,6 +32,26 @@ public class CommentCommunication : ICommentCommunication
         }
     }
 
+    public async Task<IList<Comment>> GetCommentsForMovie(int movieId)
+    {
+         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{movieId}");
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
+
+        return httpResponse;
+    }
+
     public async Task IncreaseCommendId(Comment comment){
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
@@ -51,9 +71,6 @@ public class CommentCommunication : ICommentCommunication
 
         if (httpResponse != null)
         {
-            Console.WriteLine("In if statement");
-            Console.WriteLine(httpResponse.First());
-            Console.WriteLine(httpResponse[0].CommentId);
             
                 comment.CommentId = httpResponse.Last().CommentId + 1;
             }

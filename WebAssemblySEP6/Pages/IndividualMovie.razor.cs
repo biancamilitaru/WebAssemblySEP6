@@ -15,7 +15,7 @@ namespace WebAssemblySEP6.Pages
     private ICommentCommunication commentCommunication;
     [Parameter] public int movieId { get; set; }
 
-    private IList<Comment> comments;
+    private IList<Comment> comments = new List<Comment>();
 
     private Movie movie = new();
 
@@ -24,6 +24,11 @@ namespace WebAssemblySEP6.Pages
         individualMovieCommunication = new IndividualMovieCommunication();
         commentCommunication = new CommentCommunication();
         movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
+        comments = await commentCommunication.GetCommentsForMovie(movieId);
+        foreach (Comment comment in comments)
+        {
+            Console.WriteLine(comment.CommentText);
+        }
     }
 
 

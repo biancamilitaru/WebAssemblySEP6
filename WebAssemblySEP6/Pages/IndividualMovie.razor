@@ -15,12 +15,12 @@
   <td class="movie" width="60%">
     <h1>@movie.Title</h1>
     <p>@movie.Description</p>
-    <p>Directors:</p>
+    <h3>Directors:</h3>
     @if (movie.Directors != null) {
         <ul>
      @foreach (var director in movie.Directors)
         {
-                <li>@director</li>
+                <li class="list">@director</li>
         }
         </ul>
     }
@@ -37,8 +37,8 @@
         
     </table>
 
-     <p>Comments: </p>
-        @if (movie.Comments == null)
+     <h3>Comments: </h3>
+        @if (comments == null)
         {
             <p>
                 <em class="list">No comments</em>
@@ -46,19 +46,20 @@
         }
         else
         {
-        <li>
-            @foreach (var comment in movie.Comments)
+        <ul>
+            @foreach (var comment in comments)
                 {
-                        <ul class="list">@comment.UserId said: @comment.CommentText</ul>
+                    <!--TODO: We need to show the username here instead of the ID, but it is ok for now-->
+                        <li class="list">@comment.UserId said: @comment.CommentText</li>
                 }
-                </li> 
+                </ul> 
         }
 
         <div class="addComment">
             <button class="btn btn-dark" @onclick="AddComment">Comment</button>
         </div>
 
-    <p>Actors: </p>
+    <h3>Actors: </h3>
     @if (movie.Actors != null) {
         <ul>
      @foreach (var actor in movie.Actors)

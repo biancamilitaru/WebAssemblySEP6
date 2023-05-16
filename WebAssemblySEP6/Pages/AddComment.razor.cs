@@ -37,11 +37,9 @@ public partial class AddComment
 
             };
             await commentCommunication.IncreaseCommendId(comment);
-            Console.WriteLine("Sending comment to db");
             await commentCommunication.AddCommentAsync(comment);
             var movieId = comment.MovieId;
-            Console.WriteLine("!!!!!"+movieId);
-            navigationManager.NavigateTo("/movie/{moviId}");
+            navigationManager.NavigateTo($"/movie/{movieId}");
             
         }
 

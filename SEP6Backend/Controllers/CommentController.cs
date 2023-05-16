@@ -42,4 +42,19 @@ public class CommentController:ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    [Route("{movieId:int}")]
+    public async Task<ActionResult<IList<Comment>>> GetComentsForMovie([FromRoute]int movieId)
+    {
+        try
+        {
+            var comments = await commentDataAccess.GetComentsForMovieAsync(movieId);
+            return Ok(comments);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }
