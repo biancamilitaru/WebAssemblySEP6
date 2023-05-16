@@ -20,7 +20,6 @@ public class UserDataAccess : IUserDataAccess
         builder.InitialCatalog = "movieDB";
     }
 
-    // TODO - change this method with the one that connects to the db after we get the new db
     public async Task AddUserAsync(User user)
     {
         var userReturned = new Object();
@@ -43,5 +42,45 @@ public class UserDataAccess : IUserDataAccess
         { 
             Console.WriteLine("Error: " + ex.Message); 
         }
+    }
+
+    public async Task<IList<User>> GetAllUsersAsync()
+    {
+        var usersToReturn = new List<User>();
+        try
+        {
+            string commandString = $"SELECT * FROM [user]";
+            await using (connection = new SqlConnection(builder.ConnectionString))
+            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            {
+                await connection.OpenAsync();
+
+                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        var user = new User
+                        {
+                            UserId = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            EmailAddress = reader.GetString(2),
+                            Password = reader.GetString(3)
+                        };
+                        
+                        usersToReturn.Add(user);
+                        
+                        Console.WriteLine($"{user.UserId}, {user.Name}, {user.Password}, {user.EmailAddress}");
+                    }
+                }
+
+                await connection.CloseAsync();
+            }
+        }
+        catch (Exception ex)
+        { 
+            Console.WriteLine("Error: " + ex.Message); 
+        }
+
+        return usersToReturn;
     }
 }
