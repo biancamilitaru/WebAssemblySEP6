@@ -20,8 +20,8 @@ public class UserController:ControllerBase
     {
         try
         {
-            User userAdded = await userDataAccess.AddUserAsync(user);
-            return Created($"/{user.UserId}", userAdded);
+            await userDataAccess.AddUserAsync(user);
+            return Created($"/{user.UserId}", user);
         }
         catch (Exception e)
         {

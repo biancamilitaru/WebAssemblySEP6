@@ -21,37 +21,27 @@ public class UserDataAccess : IUserDataAccess
     }
 
     // TODO - change this method with the one that connects to the db after we get the new db
-    public async Task<User> AddUserAsync(User user)
+    public async Task AddUserAsync(User user)
     {
+        var userReturned = new Object();
         try
         {
+            string commandString = $"INSERT INTO [user] (userId, password, name, email) VALUES (@userId, @password, @name, @email)";
             await using (connection = new SqlConnection(builder.ConnectionString))
-            {
-                string commandString = $"INSERT INTO [moviedb.user] (moviedb.userId, moviedb.password, moviedb.name, moviedb.email) VALUES ({user.UserId}, {user.Password}, {user.Name}, {user.EmailAddress})";
-                SqlCommand command = new SqlCommand(commandString, connection);
+            await using (SqlCommand command = new SqlCommand(commandString, connection)) { 
                 await connection.OpenAsync();
-                var registeredUser = await command.ExecuteScalarAsync();
-                if (registeredUser != null)
-                {
-                    // Map the result to a new User object and return it
-                    var userRecord = (IDataRecord) registeredUser;
+                command.Parameters.AddWithValue("@userId", user.UserId);
+                command.Parameters.AddWithValue("@password", user.Password);
+                command.Parameters.AddWithValue("@name", user.Name);
+                command.Parameters.AddWithValue("@email", user.EmailAddress);
 
-                    var newUser = new User
-                    {
-                        EmailAddress = userRecord[0].ToString(),
-                        Password = userRecord[1].ToString(),
-                        Name = userRecord[2].ToString()
-                    };
-
-                    return newUser;
-                }
-
+                await command.ExecuteNonQueryAsync();
+                await connection.CloseAsync();
             }
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         { 
             Console.WriteLine("Error: " + ex.Message); 
         }
-        
-        return user;
     }
 }
