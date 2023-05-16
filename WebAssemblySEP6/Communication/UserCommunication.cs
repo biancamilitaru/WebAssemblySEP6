@@ -4,7 +4,7 @@ using Model;
 
 namespace WebAssemblySEP6.Communication;
 
-public class UserCommunication :IUserCommunication
+public class UserCommunication : IUserCommunication
 {
     private string uri = "https://localhost:7044/User";
     private HttpClient httpClient;
@@ -31,5 +31,15 @@ public class UserCommunication :IUserCommunication
         {
             throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
         }
+    }
+
+    public Task<User> RegisterUserAsync(User user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> VerifyEmailAddressAsync(User user)
+    {
+        throw new NotImplementedException();
     }
 }

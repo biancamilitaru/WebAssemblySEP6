@@ -1,12 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
-using WebAssemblySEP6.Model;
+﻿using Microsoft.AspNetCore.Components;
+using Model;
 using WebAssemblySEP6.Communication;
-using Microsoft.Extensions.Logging;
-
 
 namespace WebAssemblySEP6.Pages
 {
