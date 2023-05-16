@@ -1,6 +1,8 @@
-using WebAssemblySEP6.Communication;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Model;
+using WebAssemblySEP6.Communication;
+using WebAssemblySEP6.Model;
 
 namespace WebAssemblySEP6.Pages
 {
@@ -8,7 +10,6 @@ namespace WebAssemblySEP6.Pages
     
     public partial class IndividualMovie
     {
-
         [Inject]
     public NavigationManager NavigationManager { get; set; }
     private IIndividualMovieCommunication individualMovieCommunication;
@@ -45,5 +46,4 @@ namespace WebAssemblySEP6.Pages
 
 
     }
-
 }

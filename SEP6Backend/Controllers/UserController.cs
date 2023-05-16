@@ -34,7 +34,22 @@ public class UserController:ControllerBase
     {
         try
         {
-            var userToReturn = await userDataAccess.GetAllUsersAsync();
+            var usersToReturn = await userDataAccess.GetAllUsersAsync();
+            return Ok(usersToReturn);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("{email}")]
+    public async Task<ActionResult<User>> GetUserByEmail([FromRoute] string email)
+    {
+        try
+        {
+            var userToReturn = await userDataAccess.GetUserByEmailAsync(email);
             return Ok(userToReturn);
         }
         catch (Exception e)

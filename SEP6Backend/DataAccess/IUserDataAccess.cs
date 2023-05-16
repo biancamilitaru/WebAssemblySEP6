@@ -8,4 +8,5 @@ public interface IUserDataAccess
     public Task<IList<User>> GetAllUsersAsync();
 
     public Task<User> GetUserById(int userId);
+    public Task<User> GetUserByEmailAsync(string email);
 }
