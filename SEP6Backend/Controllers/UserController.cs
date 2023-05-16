@@ -32,4 +32,18 @@ namespace SEP6Backend.Controllers
             }
         }
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IList<User>>> GetAllUsers()
+    {
+        try
+        {
+            var userToReturn = await userDataAccess.GetAllUsersAsync();
+            return Ok(userToReturn);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

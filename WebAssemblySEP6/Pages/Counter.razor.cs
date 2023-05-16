@@ -15,11 +15,9 @@ namespace WebAssemblySEP6.Pages
             _userCommunication = new UserCommunication();
         }
 
-        private void IncrementCount()
-        {
-            _userCommunication.AddUserAsync(new User()
-                {UserId = 2, Name = "name1", Password = "password1", EmailAddress = "email1"});
-        }
+    private void IncrementCount()
+    {
+        _userCommunication.AddUserAsync(new User(){UserId = 3, Name = "name1", Password = "password1", EmailAddress = "email1"});
     }
 }
 
