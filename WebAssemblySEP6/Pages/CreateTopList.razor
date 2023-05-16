@@ -1,0 +1,102 @@
+﻿@page "/CreateToplist"
+
+<link rel="stylesheet" href="css/createTopList.css">
+
+<h1>Create a new top list</h1>
+
+
+<text> &nbsp; &nbsp; &nbsp;</text>
+    
+<!-- Title section -->
+<div class ="title">
+<label for="toplistName">Toplist Name:</label>
+        <input id="toplistName" type="text" @bind="topListTitle" placeholder="Title of the top list"/>
+</div>        
+
+<text> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</text>
+
+<!-- Search section -->
+<div class="searchBar">    
+    <label>Search for movies to add in the top list </label>
+    <table>
+        <tr>
+            <td>
+                <div class="text-center">
+                    <input class="search" @bind-value="searchText" placeholder="Search by title"/>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-dark" @onclick="@Search">Search</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+  <text> &nbsp; &nbsp;</text>
+<!-- Movie clip section -->
+<div class="wrapper">
+    @if (!searchedMovies.Any())
+    {
+        @foreach (var id in movieIds)
+        {
+            <div class="movie-card">
+                <TopListMovieCard movieId=@id></TopListMovieCard>
+                <button class="add-button" @onclick="(() => AddToTopList(id))">Add</button>
+            </div>
+        }
+    }
+    else
+    {
+        @foreach (var id in searchedMovies)
+        {
+            <div class="movie-card">
+                <TopListMovieCard movieId=@id></TopListMovieCard>
+                <button class="add-button" @onclick="(() => AddToTopList(id))">Add</button>
+            </div>
+        }
+    }
+</div>
+
+<text> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</text>
+
+<div class="selected-movies">
+    <h3>Selected Movies:</h3>
+    <ul>
+        @if (!selectedMovies.Any())
+        {
+                <div class="selected-movies">
+                    <li>Currently there are no selected movies</li>
+                </div>
+        
+        }
+        else
+        {
+            @foreach (var id in selectedMovies)
+            {
+                <div class="selected-movies">
+                    <li>@id
+                        <button class="remove-button" @onclick="(() => RemoveFromSelected(id))">Remove</button>
+                    </li>
+                </div>
+            }
+        }
+    </ul>
+</div>
+
+<text> &nbsp; &nbsp; &nbsp;</text>
+
+<div class="centered-container">
+    <button class="create-button" @onclick="AddToplistToDB">Create Top List</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
