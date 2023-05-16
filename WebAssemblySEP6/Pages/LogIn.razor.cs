@@ -20,25 +20,32 @@ public partial class LogIn
         
     private async Task UserLogIn()
     {
-        if (await userService.IsEmailAddressUsed(user) == false) 
+        if (user.EmailAddress == null || user.Password == null)
         {
-            Console.WriteLine("email not used");
-            LoginMessage = "No user found with this email";
+            LoginMessage = "Please complete all fields";
         }
         else
         {
-            Console.WriteLine("email used - verifying log in credentials");
-            if (await userService.LogIn(user))
+            if (await userService.IsEmailAddressUsed(user) == false)
             {
-                Console.WriteLine("logging in success");
-                navigationManager.NavigateTo("/counter");
+                Console.WriteLine("email not used");
+                LoginMessage = "No user found with this email";
             }
             else
             {
-                Console.WriteLine("logging in failed");
-                LoginMessage = "Incorrect password";
+                Console.WriteLine("email used - verifying log in credentials");
+                if (await userService.LogIn(user))
+                {
+                    Console.WriteLine("logging in success");
+                    navigationManager.NavigateTo("/counter");
+                }
+                else
+                {
+                    Console.WriteLine("logging in failed");
+                    LoginMessage = "Incorrect password";
+                }
+
             }
-            
         }
     }
 }
