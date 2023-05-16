@@ -1,8 +1,10 @@
-namespace Model;
-
-public class Comment
+namespace Model
 {
-     public string userName { get; set; }
 
-      public string comment { get; set; }
+    public class Comment
+    {
+        public string userName { get; set; }
+
+        public string comment { get; set; }
+    }
 }

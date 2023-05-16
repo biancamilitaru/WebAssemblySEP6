@@ -1,7 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Model.HttpResponse;
 using Model;
+using System.Threading.Tasks;
+using Model;
+using WebAssemblySEP6.Model.HttpResponse;
 
 namespace WebAssemblySEP6.Communication
 {

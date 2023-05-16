@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Model;
 
-namespace SEP6Backend.Controllers
+namespace WebAPI.Controllers
 {
 
     [ApiController]
@@ -37,5 +36,3 @@ namespace SEP6Backend.Controllers
         }
     }
 }
-
-// TODO - delete this file before deploy

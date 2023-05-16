@@ -1,22 +1,19 @@
-using System;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
-using Model;
-using SEP6Backend.Controllers;
+using WebAssemblySEP6.Model;
 
 namespace SEP6Backend.DataAccess
 {
-
-    public class UserDataAccess : IUserDataAccess
+    public class TopListDataAccess : ITopListDataAccess
     {
         private SqlConnection connection;
         private SqlConnectionStringBuilder builder;
         private SqlDataAdapter adapter;
-
-        public UserDataAccess()
+        
+        public TopListDataAccess()
         {
             builder = new SqlConnectionStringBuilder();
             builder.DataSource = "movie-db-server.database.windows.net";
@@ -24,25 +21,27 @@ namespace SEP6Backend.DataAccess
             builder.Password = "ForestBerries2023";
             builder.InitialCatalog = "movieDB";
         }
-
-        public async Task AddUserAsync(User user)
+        
+        public async Task AddTopListAsync(TopList topList)
         {
-            var userReturned = new Object();
+            Console.WriteLine("In the TopListDataAccess in the method");
+            var returnedtopList = new Object();
+            
             try
             {
                 string commandString =
-                    $"INSERT INTO [user] (userId, password, name, email) VALUES (@userId, @password, @name, @email)";
+                    $"INSERT INTO [topList] (topListId, userFk, name) VALUES (@topListId, @userFk, @name)";
                 await using (connection = new SqlConnection(builder.ConnectionString))
                 await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
                     await connection.OpenAsync();
-                    command.Parameters.AddWithValue("@userId", user.UserId);
-                    command.Parameters.AddWithValue("@password", user.Password);
-                    command.Parameters.AddWithValue("@name", user.Name);
-                    command.Parameters.AddWithValue("@email", user.EmailAddress);
+                    command.Parameters.AddWithValue("@topListId", topList.Id);
+                    command.Parameters.AddWithValue("@userFk", topList.UserName);
+                    command.Parameters.AddWithValue("@name", topList.Title);
 
                     await command.ExecuteNonQueryAsync();
                     await connection.CloseAsync();
+                    Console.WriteLine("New TopList successfully added to database");
                 }
             }
             catch (Exception ex)
@@ -51,13 +50,13 @@ namespace SEP6Backend.DataAccess
             }
         }
 
-
-        public async Task<IList<User>> GetAllUsersAsync()
+        public async Task<IList<TopList>> GetAllTopListAsync()
         {
-            var usersToReturn = new List<User>();
+            var topListToReturn = new List<TopList>();
+            
             try
             {
-                string commandString = $"SELECT * FROM [user]";
+                string commandString = $"SELECT * FROM [topList]";
                 await using (connection = new SqlConnection(builder.ConnectionString))
                 await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
@@ -67,17 +66,17 @@ namespace SEP6Backend.DataAccess
                     {
                         while (reader.Read())
                         {
-                            var user = new User
+                            var toplist = new TopList()
                             {
-                                UserId = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                EmailAddress = reader.GetString(2),
-                                Password = reader.GetString(3)
+                                Id = reader.GetInt32(0),
+                                UserName = reader.GetInt32(1),
+                                Title = reader.GetString(2),
+                                
                             };
-
-                            usersToReturn.Add(user);
-
-                            Console.WriteLine($"{user.UserId}, {user.Name}, {user.Password}, {user.EmailAddress}");
+                        
+                            topListToReturn.Add(toplist);
+                        
+                            Console.WriteLine($"{toplist.Id}, {toplist.UserName}, {toplist.Title}");
                         }
                     }
 
@@ -85,11 +84,11 @@ namespace SEP6Backend.DataAccess
                 }
             }
             catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
+            { 
+                Console.WriteLine("Error: " + ex.Message); 
             }
 
-            return usersToReturn;
+            return topListToReturn;
         }
     }
 }
