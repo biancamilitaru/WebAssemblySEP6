@@ -1,34 +1,50 @@
 ﻿@page "/signup"
+<style>
+    .outsideCont{
+        display: flex;
+        justify-content: center;
+    }
 
-<EditForm Model="@user" OnValidSubmit="@RegisterUser">   
-    <div>
-        <br /><br /><br />
-    </div>
-    <div>
-        <h3 style="font-weight:bold; color:purple">Movie Library Register</h3>
-    </div>
-    <div>
-        <br />
-    </div>
-        <div class="col-12 row">
-            <input class="form-control col-12" @bind-value="user.Name" placeholder="First and Last name" />
+    .centerCont{
+        width: 500px;
+    }
+
+    h3{
+        text-align: center;
+    }
+
+    a{
+        padding-top:20px;
+    }
+</style>
+
+<EditForm Model="@user" OnValidSubmit="@RegisterUser">
+    <div class="outsideCont">
+        <div class="centerCont">
+            <div>
+                <h3>Movie Library Register</h3>
+            </div>
+            <div>
+                <br />
+            </div>
+                    <input class="form-control col-12" @bind-value="user.Name" placeholder="First and Last name" />
+            
+                <br />
+                <input class="form-control col-12" @bind-value="user.EmailAddress" placeholder="Email Address" />
+
+            <br />
+                <input type="password" class="form-control col-12" @bind-value="user.Password" placeholder="Password" />
+     
+            <br />
+  
+                <span class="col-12"></span>
+                <input type="submit" class="form-control col-6 btn btn-dark" value="Sign up" />
+   
+            <a href="/login" class="col-6">Already an user?</a>
+            <br />
+            <div class="col-12 row" style="text-align:left; font-weight:bold">
+                <span class="col-12">@LoginMessage</span>
+            </div>
         </div>
-        <br />
-    <div class="col-12 row">
-        <input class="form-control col-12" @bind-value="user.EmailAddress" placeholder="Email Address" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <input type="password" class="form-control col-12" @bind-value="user.Password" placeholder="Password" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <span class="col-12"></span>
-        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" />
-        <a href="/login" class="col-6">Already an user?</a>
-    </div>
-    <br />
-    <div class="col-12 row" style="text-align:left; font-weight:bold">
-        <span class="col-12">@LoginMessage</span>
     </div>
 </EditForm>
