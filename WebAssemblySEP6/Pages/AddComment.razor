@@ -13,7 +13,9 @@
             <div class="form">
                 <EditForm Context="ContextForm" Model="@comment" OnValidSubmit="@postCommentAsync">
                     <input type="text" placeholder="Add your comment here.." @bind-value="commentText">
-                    <input type="submit" value="Submit">
+                    <div class="buttonDiv">
+                    <button type="submit" class="btn btn-dark">Add comment</button>
+                    </div>
                 </EditForm>
             </div>
         </div>

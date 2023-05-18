@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+<link rel="stylesheet" href="css/mainLayout.css">
+
 <div class="page">
     <div class="sidebar">
         <NavMenu/>
@@ -8,13 +10,13 @@
         <div class="top-row px-4">
             <AuthorizeView>
                 <NotAuthorized>
-                    <button @onclick="@LogIn">
-                        <span class="oi oi-account-login" aria-hidden="true"></span> Log in
+                    <button class="btn" @onclick="@LogIn">
+                        <i class="oi oi-account-login"></i> Log in
                     </button>
                 </NotAuthorized>
                 <Authorized>
-                    <button @onclick="@LogOut">
-                        <span class="oi oi-account-logout" aria-hidden="true"></span> Log out
+                    <button class="btn" @onclick="@LogOut">
+                        <i class="oi oi-account-logout"></i> Log out
                     </button>
                 </Authorized>
             </AuthorizeView>

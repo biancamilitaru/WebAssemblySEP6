@@ -1,0 +1,17 @@
+
+    .outsideCont{
+        display: flex;
+        justify-content: center;
+    }
+
+    .centerCont{
+        width: 500px;
+    }
+
+    h3{
+        text-align: center;
+    }
+
+    a{
+        padding-top:20px;
+    }
