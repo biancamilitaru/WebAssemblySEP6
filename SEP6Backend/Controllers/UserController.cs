@@ -57,4 +57,19 @@ public class UserController:ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    [Route("{userId:int}")]
+    public async Task<ActionResult<User>> GetUserById([FromRoute]int userId)
+    {
+        try
+        {
+            var userToReturn = await userDataAccess.GetUserById(userId);
+            return Ok(userToReturn);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

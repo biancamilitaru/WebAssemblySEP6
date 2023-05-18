@@ -1,0 +1,19 @@
+@page "/add-comment/{Title}/{Id:int}"
+
+
+<link rel="stylesheet" href="css/addComment.css">
+
+<h1>Add comment to: @Title</h1>
+<!--This is just to test that we can get the id, we will send it to the database with the comment-->
+<p>ID: @Id</p>
+<div class="cont">
+<div class="form">
+  <EditForm Model="@comment"  OnValidSubmit="@postCommentAsync">
+
+    <input type="text" placeholder="Add your comment here.." @bind-value="commentText">
+
+  
+    <input type="submit" value="Submit">
+ </EditForm>
+</div>
+</div>

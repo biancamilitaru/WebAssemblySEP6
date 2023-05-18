@@ -6,25 +6,43 @@ using WebAssemblySEP6.Model;
 
 namespace WebAssemblySEP6.Pages
 {
+
+    
     public partial class IndividualMovie
     {
-        private IIndividualMovieCommunication individualMovieCommunication = new IndividualMovieCommunication();
-        [Parameter]
-        public int movieId {get;set;}
+        [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    private IIndividualMovieCommunication individualMovieCommunication;
+    private ICommentCommunication commentCommunication;
+    private IUserCommunication userCommunication;
+    [Parameter] public int movieId { get; set; }
 
-        private Movie movie = new();
+    private IList<Comment> comments = new List<Comment>();
 
-     
+    private Movie movie = new();
+    private User user = new();
 
-        protected override async Task OnInitializedAsync()
+     protected override async Task OnInitializedAsync()
+    {
+        individualMovieCommunication = new IndividualMovieCommunication();
+        commentCommunication = new CommentCommunication();
+        userCommunication = new UserCommunication();
+
+        movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
+        comments = await commentCommunication.GetCommentsForMovie(movieId);
+        foreach (Comment comment in comments)
         {
-            movie = await individualMovieCommunication.GetMovieByIdAsync(movieId);
+            Console.WriteLine(comment.CommentText);
         }
+    }
 
-        public void AddComment()
-        {
 
-        }
+    
+    public async void AddComment() {
+        var Title = movie.Title;
+        var Id = movie.Id;
+        NavigationManager.NavigateTo($"/add-comment/{Title}/{Id}");
+    }
 
 
     }

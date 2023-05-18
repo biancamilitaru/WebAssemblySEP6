@@ -4,19 +4,20 @@ using Model;
 
 namespace WebAssemblySEP6.Communication;
 
-public class UserCommunication : IUserCommunication
+public class CommentCommunication : ICommentCommunication
 {
-    private string uri = "https://localhost:7044/User";
+    private string uri = "https://localhost:7044/Comment";
     private HttpClient httpClient;
 
-    public UserCommunication()
+    public CommentCommunication()
     {
         httpClient = new HttpClient();
     }
 
-    public async Task AddUserAsync(User userToAdd)
+    public async Task AddCommentAsync(Comment commentToAdd)
     {
-        string userToAddAsJson = JsonSerializer.Serialize(userToAdd);
+        
+         string userToAddAsJson = JsonSerializer.Serialize(commentToAdd);
 
         StringContent content = new StringContent(
             userToAddAsJson,
@@ -31,9 +32,9 @@ public class UserCommunication : IUserCommunication
         }
     }
 
-    public async Task<User> GetUserById(int userId)
+    public async Task<Comment> GetCommentById(int commentId)
     {
-         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{userId}");
+         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/commentId/{commentId}");
         if (!responseMessage.IsSuccessStatusCode)
         {
             throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
@@ -41,7 +42,7 @@ public class UserCommunication : IUserCommunication
         
         var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        var httpResponse = JsonSerializer.Deserialize<User>(responseStream,
+        var httpResponse = JsonSerializer.Deserialize<Comment>(responseStream,
             new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -51,9 +52,27 @@ public class UserCommunication : IUserCommunication
         return httpResponse;
     }
 
-    public async Task<bool> IsEmailAddressUsed(User user)
+    public async Task<IList<Comment>> GetCommentsForMovie(int movieId)
     {
-        bool isAdressUsed = false;
+         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{movieId}");
+        if (!responseMessage.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+        }
+        
+        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+        var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true
+            });
+
+        return httpResponse;
+    }
+
+    public async Task IncreaseCommendId(Comment comment){
 
         HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
         if (!responseMessage.IsSuccessStatusCode)
@@ -63,7 +82,7 @@ public class UserCommunication : IUserCommunication
         
         var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        var httpResponse = JsonSerializer.Deserialize<IList<User>>(responseStream,
+        var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
             new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -72,44 +91,11 @@ public class UserCommunication : IUserCommunication
 
         if (httpResponse != null)
         {
-            foreach (var userFromDb in httpResponse)
-            {
-                if (userFromDb.EmailAddress.Equals(user.EmailAddress))
-                    isAdressUsed = true;
-            }
-            if (!isAdressUsed)
-            {
-                user.UserId = httpResponse.Last().UserId + 1;
+            
+                comment.CommentId = httpResponse.Last().CommentId + 1;
             }
         }
-        
-        return isAdressUsed;
     }
 
-    public async Task<bool> LogIn(User user)
-    {
-        var userReturned = new User();
-        bool isPasswordCorrect = true;
-        HttpResponseMessage responseMessage = await httpClient.GetAsync(uri+$"/{user.EmailAddress}");
-        if (!responseMessage.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
-        }
-        
-        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        userReturned = JsonSerializer.Deserialize<User>(responseStream, new JsonSerializerOptions() 
-             {
-                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase, 
-                 PropertyNameCaseInsensitive = true
-                 
-             });
-
-        if (!userReturned.Password.Equals(user.Password))
-        {
-            isPasswordCorrect = false;
-        }
-        
-        return isPasswordCorrect;
-    }
-}
+   
