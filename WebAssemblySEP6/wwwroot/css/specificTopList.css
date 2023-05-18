@@ -27,6 +27,7 @@
     justify-content: center;
     align-items: center;
     height: 18vh;
+    margin-bottom: 30px;
 }
 
 .delete-button {
@@ -38,4 +39,8 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+p{
+    padding-bottom: 30px;
 }

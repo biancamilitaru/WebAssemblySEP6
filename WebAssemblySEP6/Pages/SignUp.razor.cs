@@ -33,7 +33,7 @@ namespace WebAssemblySEP6.Pages
                 {
                     Console.WriteLine("email not used");
                     await userService.AddUserAsync(user);
-                    navigationManager.NavigateTo("/counter");
+                    navigationManager.NavigateTo("/home");
                 }
                 else
                 {

@@ -39,15 +39,23 @@
     height: 25vh;
 }
 
-.create-button {
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+
+.toplistName{
+    padding-right: 5px;
 }
+
+.searchL{
+    margin-bottom: 10px;
+}
+
+.text-center{
+    padding-right: 10px;
+}
+
+button:hover{
+    color:#3a243b
+}
+
 
 
 
