@@ -28,7 +28,7 @@ public partial class LogIn
         LoginMessage = "";
         try {
             await ((CustomAuthenticationStateProvider) authenticationStateProvider).ValidateLogin(user);
-            navigationManager.NavigateTo("/counter");
+            navigationManager.NavigateTo("/");
         } catch (Exception e) {
             LoginMessage = e.Message;
         }
