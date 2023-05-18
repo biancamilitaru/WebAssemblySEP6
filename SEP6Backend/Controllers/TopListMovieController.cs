@@ -46,5 +46,19 @@ namespace SEP6Backend.Controllers
             }
         }
         
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTopListMovieById(int id)
+        {
+            try
+            {
+                await topListMovieDataBase.DeleteTopListMovieByIdAsync(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+        
     }
 }

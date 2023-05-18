@@ -52,5 +52,31 @@ namespace SEP6Backend.DataAccess
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
+
+        public async Task DeleteTopListMovieByIdAsync(int id)
+        {
+            try
+            {
+                string commandString = $"DELETE FROM [topListMovie] WHERE [topListIdFk] = @id";
+
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("SQL Error deleting TopListMovie with ID " + id + ": " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting TopListMovie with ID " + id + ": " + ex.Message);
+            }
+        }
     }
 }
