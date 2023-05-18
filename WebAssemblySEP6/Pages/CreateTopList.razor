@@ -11,15 +11,16 @@
         
         <!-- Title section -->
         <div class ="title">
-            <label for="toplistName">Toplist Name:</label>
+            <label for="toplistName" class="toplistName">Toplist Name:</label>
             <input id="toplistName" type="text" @bind="topList.Title" placeholder="Title of the top list"/>
         </div>        
-
-        <text> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</text>
+        <br>        
+    
 
         <!-- Search section -->
         <div class="searchBar">
-            <label>Search for movies to add in the top list </label>
+            <label class="searchL">Search for movies to add in the top list:</label>
+              <br> 
             <table>
                 <tr>
                     <td>
@@ -34,7 +35,7 @@
             </table>
         </div>
         
-        <text> &nbsp; &nbsp;</text>
+<br>
         
         <!-- Movie clip section -->
         <div class="wrapper">
@@ -59,7 +60,8 @@
                 }
             }
         </div>
-        <text> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</text>
+        <br>
+        <br>
         
         <div class="selected-movies">
             <h4>Selected Movies:</h4>
@@ -84,9 +86,9 @@
                 }
             </ul>
         </div>
-        <text> &nbsp; &nbsp; &nbsp;</text>
+
         <div class="centered-container">
-            <button class="create-button" @onclick="AddToplistToDB">Create Top List</button>
+            <button class="btn btn-dark" @onclick="AddToplistToDB">Create Top List</button>
         </div>
     </Authorized>
     <NotAuthorized>
