@@ -1,6 +1,8 @@
-namespace WebAssemblySEP6.Pages;
-
-public partial class NotAuthorizedComponent
+namespace WebAssemblySEP6.Pages
 {
-    
+
+    public partial class NotAuthorizedComponent
+    {
+
+    }
 }

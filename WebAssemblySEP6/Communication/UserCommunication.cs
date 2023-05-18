@@ -93,10 +93,10 @@ namespace WebAssemblySEP6.Communication
             return isAdressUsed;
         }
 
-        public async Task<bool> LogIn(User user)
+        public async Task<User> LogIn(User user)
         {
-            var userReturned = new User();
-            bool isPasswordCorrect = true;
+            User userReturned = null; // Initialize as null
+
             HttpResponseMessage responseMessage = await httpClient.GetAsync(uri + $"/{user.EmailAddress}");
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -109,15 +109,14 @@ namespace WebAssemblySEP6.Communication
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 PropertyNameCaseInsensitive = true
-
             });
 
-            if (!userReturned.Password.Equals(user.Password))
+            if (userReturned != null && !userReturned.Password.Equals(user.Password))
             {
-                isPasswordCorrect = false;
+                userReturned = null; // Set to null if password is incorrect
             }
 
-            return isPasswordCorrect;
+            return userReturned;
         }
     }
 }

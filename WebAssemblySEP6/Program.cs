@@ -1,6 +1,9 @@
+using System;
+using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using WebAssemblySEP6;
 using WebAssemblySEP6.Authentication;
 using WebAssemblySEP6.Communication;

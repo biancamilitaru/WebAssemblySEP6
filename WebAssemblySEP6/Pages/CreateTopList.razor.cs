@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Model;
+using WebAssemblySEP6.Authentication;
 using WebAssemblySEP6.Model;
 using WebAssemblySEP6.Communication;
 
 namespace WebAssemblySEP6.Pages
 {
+    [Authorize]
     public partial class CreateTopList
     {
         
@@ -23,6 +27,9 @@ namespace WebAssemblySEP6.Pages
         private List<Movie> selectedMovies = new List<Movie>();
         public int[] movieIds = new[] {76600, 447365, 502356, 713704, 299534};
         
+        [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        private int userIdFromLogin {get;set;}
+        
 
 
         protected override void OnInitialized()
@@ -31,6 +38,8 @@ namespace WebAssemblySEP6.Pages
             topListCommunication = new TopListCommunication();
             topListMovieCommunication = new TopListMovieCommunication();
             topList = new TopList();
+            userIdFromLogin = ((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser.UserId;
+            topList.UserName = userIdFromLogin;
         }
         
         
@@ -68,7 +77,6 @@ namespace WebAssemblySEP6.Pages
         
         public async Task AddToplistToDB()
         {
-            topList.UserName = 4;
             if (await topListCommunication.IsIdCorrect(topList) == true)
             {
                 Console.WriteLine("New Id is created");
