@@ -40,5 +40,16 @@ namespace WebAssemblySEP6.Communication
                 throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
             }
         }
+        
+        public async Task DeleteTopListMovieById(int id)
+        {
+            string requestUri = $"{uri}/{id}";
+
+            HttpResponseMessage responseMessage = await httpClient.DeleteAsync(requestUri);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+        }
     }
 }

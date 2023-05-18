@@ -8,5 +8,6 @@ namespace SEP6Backend.DataAccess
     public interface ITopListMovieDataBase
     {
         public Task AddTopListMoviesAsyncList(TopList topList, List<Movie> movies);
+        public Task DeleteTopListMovieByIdAsync(int id);
     }
 }

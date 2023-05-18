@@ -1,0 +1,41 @@
+
+  
+  ul.list-group {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width:700px;
+  
+  }
+  
+  .container{
+    display: flex;
+    justify-content: center;
+    width:100%;
+  }
+  
+  ul.list-group li {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    height: 50px;
+  }
+
+  .bigCont{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+  }
+
+  h1{
+    padding-bottom: 50px;
+  }
+
+  
+  a:hover{
+    cursor: pointer;
+  }

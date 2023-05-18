@@ -8,5 +8,6 @@ namespace WebAssemblySEP6.Communication
     public interface ITopListMovieCommunication
     {
         public Task AddTopListMoviesAsyncList(TopList topList, List<Movie> movies);
+        public Task DeleteTopListMovieById(int id);
     }
 }

@@ -1,75 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using SEP6Backend.DataAccess;
 
-namespace SEP6Backend.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class CommentController:ControllerBase
+namespace SEP6Backend.Controllers
 {
-    private ICommentDataAccess commentDataAccess;
 
-    public CommentController()
+    [ApiController]
+    [Route("[controller]")]
+    public class CommentController : ControllerBase
     {
-        commentDataAccess = new CommentDataAccess();
-    }
+        private ICommentDataAccess commentDataAccess;
 
-    [HttpPost]
-    public async Task<ActionResult<Comment>> AddComment([FromBody] Comment comment)
-    {
-        try
+        public CommentController()
         {
-            await commentDataAccess.AddCommentAsync(comment);
-            return Created($"/{comment.CommentId}", comment);
+            commentDataAccess = new CommentDataAccess();
         }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 
-    [HttpGet]
-    public async Task<ActionResult<IList<Comment>>> GetAllComments()
-    {
-        try
+        [HttpPost]
+        public async Task<ActionResult<Comment>> AddComment([FromBody] Comment comment)
         {
-            var comments = await commentDataAccess.GetAllCommentsAsync();
-            return Ok(comments);
+            try
+            {
+                await commentDataAccess.AddCommentAsync(comment);
+                return Created($"/{comment.CommentId}", comment);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 
-    [HttpGet]
-    [Route("{movieId:int}")]
-    public async Task<ActionResult<IList<Comment>>> GetComentsForMovie([FromRoute]int movieId)
-    {
-        try
+        [HttpGet]
+        public async Task<ActionResult<IList<Comment>>> GetAllComments()
         {
-            var comments = await commentDataAccess.GetComentsForMovieAsync(movieId);
-            return Ok(comments);
+            try
+            {
+                var comments = await commentDataAccess.GetAllCommentsAsync();
+                return Ok(comments);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 
-    [HttpGet]
-    [Route("commentId/{commentId:int}")]
-    public async Task<ActionResult<IList<Comment>>> GetCommentById([FromRoute]int commentId)
-    {
-        try
+        [HttpGet]
+        [Route("{movieId:int}")]
+        public async Task<ActionResult<IList<Comment>>> GetComentsForMovie([FromRoute] int movieId)
         {
-            var comments = await commentDataAccess.GetCommentById(commentId);
-            return Ok(comments);
+            try
+            {
+                var comments = await commentDataAccess.GetComentsForMovieAsync(movieId);
+                return Ok(comments);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
-        catch (Exception e)
+
+        [HttpGet]
+        [Route("commentId/{commentId:int}")]
+        public async Task<ActionResult<IList<Comment>>> GetCommentById([FromRoute] int commentId)
         {
-            return StatusCode(500, e.Message);
+            try
+            {
+                var comments = await commentDataAccess.GetCommentById(commentId);
+                return Ok(comments);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

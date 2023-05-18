@@ -1,169 +1,177 @@
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using Model;
 using SEP6Backend.Controllers;
 
-namespace SEP6Backend.DataAccess;
-
-public class UserDataAccess : IUserDataAccess
+namespace SEP6Backend.DataAccess
 {
-    private SqlConnection connection;
-    private SqlConnectionStringBuilder builder;
-    private SqlDataAdapter adapter;
 
-    public UserDataAccess()
+    public class UserDataAccess : IUserDataAccess
     {
-        builder = new SqlConnectionStringBuilder();
-        builder.DataSource = "movie-db-server.database.windows.net";
-        builder.UserID = "moviedb@movie-db-server";
-        builder.Password = "ForestBerries2023";
-        builder.InitialCatalog = "movieDB";
-    }
+        private SqlConnection connection;
+        private SqlConnectionStringBuilder builder;
+        private SqlDataAdapter adapter;
 
-    public async Task AddUserAsync(User user)
-    {
-        var userReturned = new Object();
-        try
+        public UserDataAccess()
         {
-            string commandString = $"INSERT INTO [user] (userId, password, name, email) VALUES (@userId, @password, @name, @email)";
-            await using (connection = new SqlConnection(builder.ConnectionString))
-            await using (SqlCommand command = new SqlCommand(commandString, connection)) { 
-                await connection.OpenAsync();
-                command.Parameters.AddWithValue("@userId", user.UserId);
-                command.Parameters.AddWithValue("@password", user.Password);
-                command.Parameters.AddWithValue("@name", user.Name);
-                command.Parameters.AddWithValue("@email", user.EmailAddress);
-                
-                await command.ExecuteNonQueryAsync();
-                await connection.CloseAsync();
+            builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "movie-db-server.database.windows.net";
+            builder.UserID = "moviedb@movie-db-server";
+            builder.Password = "ForestBerries2023";
+            builder.InitialCatalog = "movieDB";
+        }
+
+        public async Task AddUserAsync(User user)
+        {
+            var userReturned = new Object();
+            try
+            {
+                string commandString =
+                    $"INSERT INTO [user] (userId, password, name, email) VALUES (@userId, @password, @name, @email)";
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@userId", user.UserId);
+                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@name", user.Name);
+                    command.Parameters.AddWithValue("@email", user.EmailAddress);
+
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
             }
         }
-        catch (Exception ex)
-        { 
-            Console.WriteLine("Error: " + ex.Message); 
-        }
-    }
 
-    public async Task<IList<User>> GetAllUsersAsync()
-    {
-        var usersToReturn = new List<User>();
-        try
+        public async Task<IList<User>> GetAllUsersAsync()
         {
-            string commandString = $"SELECT * FROM [user]";
-            await using (connection = new SqlConnection(builder.ConnectionString))
-            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            var usersToReturn = new List<User>();
+            try
             {
-                await connection.OpenAsync();
-
-                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                string commandString = $"SELECT * FROM [user]";
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
-                    while (reader.Read())
+                    await connection.OpenAsync();
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        var user = new User
+                        while (reader.Read())
                         {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3)
-                        };
-                        
-                        usersToReturn.Add(user);
-                        
-                        Console.WriteLine($"{user.UserId}, {user.Name}, {user.Password}, {user.EmailAddress}");
+                            var user = new User
+                            {
+                                UserId = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                EmailAddress = reader.GetString(2),
+                                Password = reader.GetString(3)
+                            };
+
+                            usersToReturn.Add(user);
+
+                            Console.WriteLine($"{user.UserId}, {user.Name}, {user.Password}, {user.EmailAddress}");
+                        }
                     }
+
+                    await connection.CloseAsync();
                 }
-
-                await connection.CloseAsync();
             }
-        }
-        catch (Exception ex)
-        { 
-            Console.WriteLine("Error: " + ex.Message); 
-        }
-
-        return usersToReturn;
-    }
-
-    public async Task<User> GetUserByEmailAsync(string email)
-    {
-        var userToReturn = new User();
-        try
-        {
-            string commandString = $"SELECT * FROM [user] WHERE email=@email";
-            await using (connection = new SqlConnection(builder.ConnectionString))
-            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            catch (Exception ex)
             {
-                await connection.OpenAsync();
-                command.Parameters.AddWithValue("@email", email);
-                
-                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                {
-                    if (reader.Read())
-                    { 
-                        userToReturn = new User
-                        {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3)
-                        };
-                        
-                        Console.WriteLine($"{userToReturn.UserId}, {userToReturn.Name}, {userToReturn.Password}, {userToReturn.EmailAddress}");
-                    }
-                }
-
-                await connection.CloseAsync();
+                Console.WriteLine("Error: " + ex.Message);
             }
-        }
-        catch (Exception ex)
-        { 
-            Console.WriteLine("Error: " + ex.Message); 
+
+            return usersToReturn;
         }
 
-        return userToReturn;
-    }
-
-    public async Task<User> GetUserById(int userId)
-    {
-        var userToReturn = new User();
-        try
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            string commandString = $"SELECT * FROM [user] WHERE userId=@userId";
-            await using (connection = new SqlConnection(builder.ConnectionString))
-            await using (SqlCommand command = new SqlCommand(commandString, connection))
+            var userToReturn = new User();
+            try
             {
-                await connection.OpenAsync();
-                command.Parameters.AddWithValue("@userId", userId);
-
-                await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                string commandString = $"SELECT * FROM [user] WHERE email=@email";
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
-                    while (reader.Read())
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@email", email);
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        
-                             var user = new User
+                        if (reader.Read())
                         {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3),
-                        };
-                        
-                        
-                        
-                        userToReturn = user;
-                        
-                        Console.WriteLine($"{user.Name}, {user.UserId}");
+                            userToReturn = new User
+                            {
+                                UserId = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                EmailAddress = reader.GetString(2),
+                                Password = reader.GetString(3)
+                            };
+
+                            Console.WriteLine(
+                                $"{userToReturn.UserId}, {userToReturn.Name}, {userToReturn.Password}, {userToReturn.EmailAddress}");
+                        }
                     }
+
+                    await connection.CloseAsync();
                 }
-
-                await connection.CloseAsync();
             }
-        }
-        catch (Exception ex)
-        { 
-            Console.WriteLine("Error: " + ex.Message); 
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return userToReturn;
         }
 
-        return userToReturn;
+        public async Task<User> GetUserById(int userId)
+        {
+            var userToReturn = new User();
+            try
+            {
+                string commandString = $"SELECT * FROM [user] WHERE userId=@userId";
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+
+                            var user = new User
+                            {
+                                UserId = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                EmailAddress = reader.GetString(2),
+                                Password = reader.GetString(3),
+                            };
+
+
+
+                            userToReturn = user;
+
+                            Console.WriteLine($"{user.Name}, {user.UserId}");
+                        }
+                    }
+
+                    await connection.CloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return userToReturn;
+        }
     }
 }
