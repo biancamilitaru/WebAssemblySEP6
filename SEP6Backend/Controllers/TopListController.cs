@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Model;
 using SEP6Backend.DataAccess;
 using WebAssemblySEP6.Model;
 
@@ -33,18 +34,21 @@ namespace SEP6Backend.Controllers
             }
         }
         
+        /*
         [HttpGet]
-        public async Task<ActionResult<IList<TopList>>> GetAllTopLists()
+        public async Task<ActionResult<IList<TopList>>> GetAllTopLists(int userId)
         {
+            Console.WriteLine("In the TopListController in the method");
             try
             {
-                var topListToReturn = await topListDataAccess.GetAllTopListAsync();
-                return Ok(topListToReturn);
+                var topLists = await topListDataAccess.GetAllTopListsAsync(userId);
+                return Ok(topLists);
             }
             catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
         }
+        */
     }
 }

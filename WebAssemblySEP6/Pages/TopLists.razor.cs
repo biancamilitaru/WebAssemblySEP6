@@ -20,8 +20,8 @@ namespace WebAssemblySEP6.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            topLists=  topListCommunication.GetTopListsAsync();
-            //TODO: implement communication class
+            int id = 12;
+            //topLists = await topListCommunication.GetAllTopListsAsync(id);
         }
 
         private async Task deleteTopList()

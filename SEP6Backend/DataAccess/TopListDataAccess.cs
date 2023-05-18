@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
+using Model;
 using WebAssemblySEP6.Model;
 
 namespace SEP6Backend.DataAccess
@@ -24,7 +25,7 @@ namespace SEP6Backend.DataAccess
         
         public async Task AddTopListAsync(TopList topList)
         {
-            Console.WriteLine("In the TopListDataAccess in the method");
+            Console.WriteLine("In the TopListDataAccess in the method AddTopList");
             var returnedtopList = new Object();
             
             try
@@ -49,34 +50,36 @@ namespace SEP6Backend.DataAccess
                 Console.WriteLine("Error: " + ex.Message);
             }
         }
-
-        public async Task<IList<TopList>> GetAllTopListAsync()
+        /*
+        public async Task<IList<TopList>> GetAllTopListsAsync(int userId)
         {
-            var topListToReturn = new List<TopList>();
-            
+            Console.WriteLine("In the TopListDataAccess in the method, GetAllToplist");
+            var topLists = new List<TopList>();
+
             try
             {
-                string commandString = $"SELECT * FROM [topList]";
+                string commandString = $"SELECT * FROM [topList] WHERE [userFk] = @userId";
                 await using (connection = new SqlConnection(builder.ConnectionString))
                 await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
+                    command.Parameters.AddWithValue("@userId", userId);
+
                     await connection.OpenAsync();
 
                     await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
-                            var toplist = new TopList()
+                            var topList = new TopList()
                             {
-                                Id = reader.GetInt32(0),
-                                UserName = reader.GetInt32(1),
-                                Title = reader.GetString(2),
-                                
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserName = reader.GetInt32(reader.GetOrdinal("UserName")),
+                                Title = reader.GetString(reader.GetOrdinal("Title"))
                             };
-                        
-                            topListToReturn.Add(toplist);
-                        
-                            Console.WriteLine($"{toplist.Id}, {toplist.UserName}, {toplist.Title}");
+
+                            topLists.Add(topList);
+
+                            Console.WriteLine($"{topList.Id}, {topList.UserName}, {topList.Title}");
                         }
                     }
 
@@ -84,11 +87,12 @@ namespace SEP6Backend.DataAccess
                 }
             }
             catch (Exception ex)
-            { 
-                Console.WriteLine("Error: " + ex.Message); 
+            {
+                Console.WriteLine("Error: " + ex.Message);
             }
 
-            return topListToReturn;
+            return topLists;
         }
+      */
     }
 }

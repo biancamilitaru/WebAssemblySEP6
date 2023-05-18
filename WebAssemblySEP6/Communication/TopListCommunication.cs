@@ -65,20 +65,28 @@ namespace WebAssemblySEP6.Communication
                 Console.WriteLine("Error: " + ex.Message);
                 return false; // Exception occurred, ID status is unknown
             }
-            //do the connection to the backend
         }
-
-        public IList<TopList> GetTopListsAsync()
+        /*
+        public async Task<IList<TopList>> GetAllTopListsAsync(int userId)
         {
-            //database call
-            //we need to get the userId from the logged in user
-            //--------------This is just for testing----------------------
-            IList<TopList> topLists = new List<TopList>();
-            topLists.Add(new TopList{UserName = "hahi", Title="Romance", Id=1});
-            topLists.Add(new TopList{UserName = "hahi", Title="Thriller", Id=2});
+            string requestUri = $"{uri}?userId={userId}";
+
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(requestUri);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+            var topLists = await JsonSerializer.DeserializeAsync<IList<TopList>>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
 
             return topLists;
-
         }
+        */
     }
 }

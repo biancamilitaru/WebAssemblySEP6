@@ -7,6 +7,8 @@ namespace WebAssemblySEP6.Communication
 
     public interface ITopListCommunication
     {
-        public IList<TopList> GetTopListsAsync();
+      //  public Task<IList<TopList>> GetAllTopListsAsync(int userID);
+        public Task AddTopListAsync(TopList topList);
+        public Task<bool> IsIdCorrect(TopList topList);
     }
 }
