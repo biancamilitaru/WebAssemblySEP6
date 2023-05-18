@@ -51,5 +51,26 @@ namespace WebAssemblySEP6.Communication
                 throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
             }
         }
+
+        public async Task<IList<Movie>> GetMoviesForATopList(int topListID)
+        {
+            string requestUri = $"{uri}/check-id/{topListID}";
+
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(requestUri);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+            var topLists = await JsonSerializer.DeserializeAsync<IList<Movie>>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return topLists;
+        }
     }
 }

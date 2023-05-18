@@ -17,9 +17,10 @@
         {
           <li>
             <p>
-              <a @onclick="@openTopListPage">
-               Toplist name: @toplist.Title
-              </a>
+             <a @onclick="() => openTopListPage(toplist.Id, toplist.Title)">
+             Toplist name: @toplist.Title
+             </a>
+            
             </p>
               <a @onclick="() => DeleteTopList(toplist.Id, toplist.Title)">
                               <i class="material-icons">delete</i>

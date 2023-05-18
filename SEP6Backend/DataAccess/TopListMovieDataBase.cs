@@ -78,5 +78,50 @@ namespace SEP6Backend.DataAccess
                 Console.WriteLine("Error deleting TopListMovie with ID " + id + ": " + ex.Message);
             }
         }
+
+        public async Task<IList<Movie>> GetMoviesForATopList(int topListID)
+        {
+            Console.WriteLine($"In the TopListDataAccess in the method, GetMoviesForATopList. Id is: {topListID}");
+            var movies = new List<Movie>();
+
+            try
+            {
+                string commandString = $"SELECT [movieId] FROM [topListMovie] WHERE [topListIdFk] = @topListId";
+
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    command.Parameters.AddWithValue("@topListId", topListID);
+
+                    await connection.OpenAsync();
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            var movie = new Movie()
+                            {
+                                Id = reader.GetInt32(0),
+                            };
+                
+                            movies.Add(movie);
+                
+                            Console.WriteLine($"{movie.Id}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("SQL Error in GetAllTopListsByIdAsync: " + ex.Message + ex.LineNumber + ex.Source);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in GetAllTopListsByIdAsync: " + ex.Message);
+            }
+
+            return movies;
+        }
+        
     }
 }
