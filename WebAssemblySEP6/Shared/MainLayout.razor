@@ -4,12 +4,21 @@
     <div class="sidebar">
         <NavMenu/>
     </div>
-
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <AuthorizeView>
+                <NotAuthorized>
+                    <button @onclick="@LogIn">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> Log in
+                    </button>
+                </NotAuthorized>
+                <Authorized>
+                    <button @onclick="@LogOut">
+                        <span class="oi oi-account-logout" aria-hidden="true"></span> Log out
+                    </button>
+                </Authorized>
+            </AuthorizeView>
         </div>
-
         <article class="content px-4">
             @Body
         </article>

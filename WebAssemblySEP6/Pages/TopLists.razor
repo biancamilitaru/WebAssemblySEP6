@@ -1,30 +1,37 @@
 @page "/top-lists"
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="css/topList.css">
-
-
 <PageTitle>My Toplists</PageTitle>
-<h1>My toplists</h1>
-<div class="bigCont">
- <button class="btn btn-dark" @onclick="openAddTopListPage">Add top list</button>
-</div>
-<div class="container">
- 
-    <ul class="list-group">
-        @foreach (var toplist in topLists)
-        {
-          <li>
-            <p>
-              <a @onclick="@openTopListPage">
-               Toplist name: @toplist.Title
-              </a>
-            </p>
-              <a @onclick="() => DeleteTopList(toplist.Id, toplist.Title)">
-                              <i class="material-icons">delete</i>
-                          </a>
-          </li>
-        }
-    </ul>
-</div>
+
+<AuthorizeView>
+    <Authorized>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="css/topList.css">
+
+        <h1>My toplists</h1>
+        <div class="bigCont">
+            <button class="btn btn-dark" @onclick="openAddTopListPage">Add top list</button>
+        </div>
+        <div class="container">
+            <ul class="list-group">
+                @foreach (var toplist in topLists)
+                {
+                    <li>
+                        <p>
+                            <a @onclick="() => openTopListPage(toplist.Id, toplist.Title)">
+                                Toplist name: @toplist.Title
+                            </a>
+
+                        </p>
+                        <a @onclick="() => DeleteTopList(toplist.Id, toplist.Title)">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedComponent></NotAuthorizedComponent>
+    </NotAuthorized>
+</AuthorizeView>

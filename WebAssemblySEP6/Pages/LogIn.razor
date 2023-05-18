@@ -1,9 +1,6 @@
 @page "/login"
-
+<PageTitle>Log in</PageTitle>
 <EditForm Model="@user" OnValidSubmit="@UserLogIn">   
-    <div>
-        <br /><br /><br />
-    </div>
     <div>
         <h3 style="font-weight:bold; color:purple">Movie Library Register</h3>
     </div>
@@ -21,6 +18,7 @@
     <div class="col-12 row">
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Log in" />
+        <a href="/signup" class="col-6">Are you a new user?</a>
     </div>
     <br />
     <div class="col-12 row" style="text-align:left; font-weight:bold">
