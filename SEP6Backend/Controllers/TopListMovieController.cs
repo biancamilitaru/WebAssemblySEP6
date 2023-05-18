@@ -60,5 +60,30 @@ namespace SEP6Backend.Controllers
             }
         }
         
+        
+        [HttpGet("check-id/{topListID}")]
+        public async Task<IActionResult> GetMoviesForATopList(int topListID)
+        {
+            Console.WriteLine("In the TopListMovieController in the method - GetMoviesForATopList");
+            try
+            {
+                var movies = await topListMovieDataBase.GetMoviesForATopList(topListID);
+
+                if (movies.Count == 0)
+                {
+                    return NotFound(); // Return 404 Not Found if no movies were found for the given topListID
+                }
+
+                return Ok(movies);
+            }
+            catch (Exception ex)
+            {
+                // Handle and log any exceptions that occurred during the process
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+        
     }
+    
+    
 }

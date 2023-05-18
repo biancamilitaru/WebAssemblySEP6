@@ -36,10 +36,10 @@ namespace WebAssemblySEP6.Pages
             NavigationManager.NavigateTo("/CreateToplist");
         }
 
-        private void openTopListPage()
+        private void openTopListPage(int id, string topListName)
         {
 
-            NavigationManager.NavigateTo("/top-list");
+            NavigationManager.NavigateTo($"/SpecificTopList/{id}?topListName={Uri.EscapeDataString(topListName)}");
         }
 
 
