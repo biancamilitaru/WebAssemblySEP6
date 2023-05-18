@@ -15,13 +15,14 @@ namespace WebAssemblySEP6.Pages
         private IIndividualMovieCommunication individualMovieCommunication { get; set; }
         private ITopListCommunication topListCommunication { get; set; }
         private ITopListMovieCommunication topListMovieCommunication { get; set; }
-        private NavigationManager navigationManager { get; set; }
+        [Inject] private NavigationManager navigationManager { get; set; }
         private TopList topList;
         
         private string searchText;
         private IList<int> searchedMovies = new List<int>();
         private List<Movie> selectedMovies = new List<Movie>();
         public int[] movieIds = new[] {76600, 447365, 502356, 713704, 299534};
+        
 
 
         protected override void OnInitialized()
@@ -67,12 +68,14 @@ namespace WebAssemblySEP6.Pages
         
         public async Task AddToplistToDB()
         {
+            topList.UserName = 4;
             if (await topListCommunication.IsIdCorrect(topList) == true)
             {
                 Console.WriteLine("New Id is created");
                 await topListCommunication.AddTopListAsync(topList);
                 await topListMovieCommunication.AddTopListMoviesAsyncList(topList, selectedMovies);
             }
+            navigationManager.NavigateTo("/top-lists");
         }
     }
 }

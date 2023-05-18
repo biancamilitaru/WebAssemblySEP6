@@ -1,11 +1,13 @@
-@page "/delete-toplist/{topListId:int}"
+
+
+@page "/delete-toplist/{id:int}"
 
 <link rel="stylesheet" href="css/deleteTopList.css">
 
 <PageTitle>Delete Toplist</PageTitle>
 <h1>Confirm your delete action</h1>
 
-    <h3>Are you sure you want to delete your @topListName top list?</h3>
+<h3>Are you sure you want to delete your <span class="toplist-name">@topListName</span> top list?</h3>
     <br/>
     <div class="cont">
     <div class="buttonCont">

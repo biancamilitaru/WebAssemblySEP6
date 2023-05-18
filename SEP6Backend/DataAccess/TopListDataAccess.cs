@@ -26,8 +26,7 @@ namespace SEP6Backend.DataAccess
         public async Task AddTopListAsync(TopList topList)
         {
             Console.WriteLine("In the TopListDataAccess in the method AddTopList");
-            var returnedtopList = new Object();
-            
+
             try
             {
                 string commandString =
@@ -47,39 +46,38 @@ namespace SEP6Backend.DataAccess
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Error in AddTopListAsync: " + ex.Message);
             }
         }
-        /*
-        public async Task<IList<TopList>> GetAllTopListsAsync(int userId)
+        
+        public async Task<IList<TopList>> IsIdCorrect()
         {
-            Console.WriteLine("In the TopListDataAccess in the method, GetAllToplist");
-            var topLists = new List<TopList>();
-
+            Console.WriteLine("In the TopListDataAccess in the method, IsIDCorect");
+            var topListToReturn = new List<TopList>();
+    
             try
             {
-                string commandString = $"SELECT * FROM [topList] WHERE [userFk] = @userId";
+                string commandString = $"SELECT * FROM [topList]";
                 await using (connection = new SqlConnection(builder.ConnectionString))
                 await using (SqlCommand command = new SqlCommand(commandString, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-
                     await connection.OpenAsync();
 
                     await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
-                            var topList = new TopList()
+                            var toplist = new TopList()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                UserName = reader.GetInt32(reader.GetOrdinal("UserName")),
-                                Title = reader.GetString(reader.GetOrdinal("Title"))
+                                Id = reader.GetInt32(0),
+                                UserName = reader.GetInt32(1),
+                                Title = reader.GetString(2),
+                        
                             };
-
-                            topLists.Add(topList);
-
-                            Console.WriteLine($"{topList.Id}, {topList.UserName}, {topList.Title}");
+                
+                            topListToReturn.Add(toplist);
+                
+                            Console.WriteLine($"{toplist.Id}, {toplist.UserName}, {toplist.Title}");
                         }
                     }
 
@@ -87,12 +85,88 @@ namespace SEP6Backend.DataAccess
                 }
             }
             catch (Exception ex)
+            { 
+                Console.WriteLine("Error in IsIdCorrect: " + ex.Message); 
+            }
+
+            return topListToReturn;
+        }
+
+        public async Task DeleteTopListById(int id)
+        {
+            try
             {
-                Console.WriteLine("Error: " + ex.Message);
+                string commandString = $"DELETE FROM [topList] WHERE [topListId] = @id";
+
+                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    command.Parameters.AddWithValue("@id", id);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                    await connection.CloseAsync();
+                }
+                
+                Console.WriteLine($"TopList with ID {id} deleted successfully.");
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"SQL Error deleting TopList with ID {id}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting TopList with ID {id}: {ex.Message}");
+            }
+        }
+
+
+        public async Task<IList<TopList>> GetAllTopListsByIdAsync(int userId)
+        {
+            Console.WriteLine($"In the TopListDataAccess in the method, GetAllToplistById. Id id: {userId}");
+            var topLists = new List<TopList>();
+
+            try
+            {
+                string commandString = $"SELECT * FROM [topList] WHERE [userFk] = @userIdParam";
+
+                await using (connection = new SqlConnection(builder.ConnectionString))
+                await using (SqlCommand command = new SqlCommand(commandString, connection))
+                {
+                    command.Parameters.AddWithValue("@userIdParam", userId);
+
+                    await connection.OpenAsync();
+
+                    await using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            var toplist = new TopList()
+                            {
+                                Id = reader.GetInt32(0),
+                                UserName = reader.GetInt32(1),
+                                Title = reader.GetString(2),
+                        
+                            };
+                
+                            topLists.Add(toplist);
+                
+                            Console.WriteLine($"{toplist.Id}, {toplist.UserName}, {toplist.Title}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("SQL Error in GetAllTopListsByIdAsync: " + ex.Message + ex.LineNumber + ex.Source);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in GetAllTopListsByIdAsync: " + ex.Message);
             }
 
             return topLists;
         }
-      */
+      
     }
 }

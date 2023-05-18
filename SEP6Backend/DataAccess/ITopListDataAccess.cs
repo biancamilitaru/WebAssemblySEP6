@@ -9,7 +9,10 @@ namespace SEP6Backend.DataAccess
     {
         public Task AddTopListAsync(TopList topList);
 
-        //public Task<IList<TopList>> GetAllTopListsAsync(int userId);
-
+        public Task<IList<TopList>> GetAllTopListsByIdAsync(int userId);
+        
+        public Task<IList<TopList>> IsIdCorrect();
+        
+        public Task DeleteTopListById(int id);
     }
 }

@@ -66,10 +66,32 @@ namespace WebAssemblySEP6.Communication
                 return false; // Exception occurred, ID status is unknown
             }
         }
-        /*
-        public async Task<IList<TopList>> GetAllTopListsAsync(int userId)
+
+        public async Task DeleteTopListById(int id)
         {
-            string requestUri = $"{uri}?userId={userId}";
+            try
+            {
+                string requestUri = $"{uri}/{id}";
+
+                HttpResponseMessage responseMessage = await httpClient.DeleteAsync(requestUri);
+                if (!responseMessage.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Error deleting TopList with ID {id}: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+                }
+
+                // Optionally, perform any additional actions after successful deletion
+                Console.WriteLine($"TopList with ID {id} deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting TopList with ID {id}: {ex.Message}");
+                // Handle any exceptions that occur during deletion
+            }
+        }
+
+        public async Task<IList<TopList>> GetAllTopListsByIdAsync(int userId)
+        {
+            string requestUri = $"{uri}/check-id/{userId}";
 
             HttpResponseMessage responseMessage = await httpClient.GetAsync(requestUri);
             if (!responseMessage.IsSuccessStatusCode)
@@ -87,6 +109,6 @@ namespace WebAssemblySEP6.Communication
 
             return topLists;
         }
-        */
+        
     }
 }

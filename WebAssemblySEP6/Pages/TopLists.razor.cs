@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,7 @@ namespace WebAssemblySEP6.Pages
         [Parameter] public int topListId { get; set; }
         [Parameter] public string topListName { get; set; }
         private ITopListCommunication topListCommunication = new TopListCommunication();
+        private ITopListMovieCommunication topListMovieCommunication = new TopListMovieCommunication();
 
          [Inject]
         public NavigationManager NavigationManager {get;set;}
@@ -20,13 +22,13 @@ namespace WebAssemblySEP6.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            int id = 12;
-            //topLists = await topListCommunication.GetAllTopListsAsync(id);
+            int id = 4;
+            topLists = await topListCommunication.GetAllTopListsByIdAsync(id);
         }
 
-        private async Task deleteTopList()
+        private async Task DeleteTopList(int id, string topListName)
         {
-            NavigationManager.NavigateTo($"/delete-toplist/{topListId}");
+            NavigationManager.NavigateTo($"/delete-toplist/{id}?topListName={Uri.EscapeDataString(topListName)}");
         }
 
          private async Task openAddTopListPage()

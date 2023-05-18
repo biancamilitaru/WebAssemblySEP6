@@ -17,3 +17,8 @@ h3{
     display: flex;
     justify-content: center;
 }
+
+.toplist-name {
+    font-weight: bold;
+    text-decoration: underline;
+}
