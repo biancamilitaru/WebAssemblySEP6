@@ -1,5 +1,6 @@
 @page "/comment/{commentId:int}"
 
-
-<li class="list">@user.Name said: @comment.CommentText</li>
+<AuthorizeView>
+    <li class="list">@user.Name said: @comment.CommentText</li>
+</AuthorizeView>
           

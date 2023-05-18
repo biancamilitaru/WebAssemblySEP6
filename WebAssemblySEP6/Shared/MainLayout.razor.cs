@@ -13,18 +13,14 @@ public partial class MainLayout
     [Inject]
     private AuthenticationStateProvider authenticationStateProvider { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        var user = ((CustomAuthenticationStateProvider) authenticationStateProvider).CachedUser;
-        if(user == null)
-        {
-            navigationManager.NavigateTo($"/Login");
-        }
-    }
     private void LogOut()
     { 
         ((CustomAuthenticationStateProvider) authenticationStateProvider).Logout();
         navigationManager.NavigateTo("/");
+    }
+
+    private void LogIn()
+    {
+        navigationManager.NavigateTo("/login");
     }
 }

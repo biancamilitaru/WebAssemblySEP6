@@ -1,80 +1,80 @@
 @page "/movie/{movieId:int}"
 
 <PageTitle>Movie</PageTitle>
-
-<header>
-      <link rel="stylesheet" href="css/individualMovie.css">
-</header>
+<link rel="stylesheet" href="css/individualMovie.css">
 
 <table>
-  <td class="backdrop" width="40%">
-    <p>
-        <img src="@movie.Image" width="400px" />
-    </p>
-  </td>
-  <td class="movie" width="60%">
-    <h1>@movie.Title</h1>
-    <p>@movie.Description</p>
-    <h3>Directors:</h3>
-    @if (movie.Directors != null) {
-        <ul>
-     @foreach (var director in movie.Directors)
-        {
-                <li class="list">@director</li>
-        }
-        </ul>
-    }
-
-  <table>
-        <tr>
-            <td class="column">
-                <p>Average rating: @movie.AvgRating</p>
-            </td>
-            <td class="column">
-                <p>Number of votes: @movie.NumberOfVotes</p>
-            </td>
-        </tr>
-        
-    </table>
-
-     <h3>Comments: </h3>
-        @if (comments == null)
-        {
-            <p>
-                <em class="list">No comments</em>
-            </p>
-        }
-        else
-        {
-        <ul>
-            @foreach (var comment in comments)
-            {
-                <CommentComponent commentId="comment.CommentId" />
-            }
-          
-            </ul> 
-        }
-
-        <div class="addComment">
-            <button class="btn btn-dark" @onclick="AddComment">Comment</button>
-        </div>
-
-    <h3>Actors: </h3>
-    @if (movie.Actors != null) {
-        <ul>
-     @foreach (var actor in movie.Actors)
-        {
-                <li class="list">@actor</li>
-        }
-        </ul>
-    }
-  
-       
-    
+    <td class="backdrop" width="40%">
+        <p>
+            <img src="@movie.Image" width="400px"/>
+        </p>
     </td>
-    
-  </table>
-  
+    <td class="movie" width="60%">
+        <h1>@movie.Title</h1>
+        <p>@movie.Description</p>
+        <h3>Directors:</h3>
+        @if (movie.Directors != null)
+        {
+            <ul>
+                @foreach (var director in movie.Directors)
+                {
+                    <li class="list">@director</li>
+                }
+            </ul>
+        }
+
+        <table>
+            <tr>
+                <td class="column">
+                    <p>Average rating: @movie.AvgRating</p>
+                </td>
+                <td class="column">
+                    <p>Number of votes: @movie.NumberOfVotes</p>
+                </td>
+            </tr>
+        </table>
+        
+        <h3>Comments: </h3>
+        <AuthorizeView>
+            <Authorized>
+                @if (comments == null)
+                {
+                    <p>
+                        <em class="list">No comments</em>
+                    </p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var comment in comments)
+                        {
+                            <CommentComponent commentId="comment.CommentId"/>
+                        }
+
+                    </ul>
+                }
+
+                <div class="addComment">
+                    <button class="btn btn-dark" @onclick="AddComment">Comment</button>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <p>Please <a href="/login">log in</a> to see the comments</p>
+            </NotAuthorized>
+        </AuthorizeView>
+        
+        <h3>Actors: </h3>
+        @if (movie.Actors != null)
+        {
+            <ul>
+                @foreach (var actor in movie.Actors)
+                {
+                    <li class="list">@actor</li>
+                }
+            </ul>
+        }
+    </td>
+</table>
 
 
 
