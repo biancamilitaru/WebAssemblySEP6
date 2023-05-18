@@ -5,13 +5,13 @@ using SEP6Backend.Controllers;
 
 namespace SEP6Backend.DataAccess;
 
-public class UserDataAccess : IUserDataAccess
+public class CommentDataAccess : ICommentDataAccess
 {
     private SqlConnection connection;
     private SqlConnectionStringBuilder builder;
     private SqlDataAdapter adapter;
 
-    public UserDataAccess()
+    public CommentDataAccess()
     {
         builder = new SqlConnectionStringBuilder();
         builder.DataSource = "movie-db-server.database.windows.net";
@@ -20,20 +20,20 @@ public class UserDataAccess : IUserDataAccess
         builder.InitialCatalog = "movieDB";
     }
 
-    public async Task AddUserAsync(User user)
+    public async Task AddCommentAsync(Comment comment)
     {
-        var userReturned = new Object();
+        var commentReturned = new Object();
         try
         {
-            string commandString = $"INSERT INTO [user] (userId, password, name, email) VALUES (@userId, @password, @name, @email)";
+            string commandString = $"INSERT INTO [comment] (commentId, comment, movieId, userIdFk) VALUES (@commentId, @comment, @movieId, @userIdFK)";
             await using (connection = new SqlConnection(builder.ConnectionString))
             await using (SqlCommand command = new SqlCommand(commandString, connection)) { 
                 await connection.OpenAsync();
-                command.Parameters.AddWithValue("@userId", user.UserId);
-                command.Parameters.AddWithValue("@password", user.Password);
-                command.Parameters.AddWithValue("@name", user.Name);
-                command.Parameters.AddWithValue("@email", user.EmailAddress);
-                
+                command.Parameters.AddWithValue("@commentId", comment.CommentId);
+                command.Parameters.AddWithValue("@comment", comment.CommentText);
+                command.Parameters.AddWithValue("@movieId", comment.MovieId);
+                command.Parameters.AddWithValue("@userIdFk", comment.UserId);
+
                 await command.ExecuteNonQueryAsync();
                 await connection.CloseAsync();
             }
@@ -44,12 +44,13 @@ public class UserDataAccess : IUserDataAccess
         }
     }
 
-    public async Task<IList<User>> GetAllUsersAsync()
+
+    public async Task<IList<Comment>> GetAllCommentsAsync()
     {
-        var usersToReturn = new List<User>();
+        var commentsToReturn = new List<Comment>();
         try
         {
-            string commandString = $"SELECT * FROM [user]";
+            string commandString = $"SELECT * FROM [comment]";
             await using (connection = new SqlConnection(builder.ConnectionString))
             await using (SqlCommand command = new SqlCommand(commandString, connection))
             {
@@ -59,17 +60,17 @@ public class UserDataAccess : IUserDataAccess
                 {
                     while (reader.Read())
                     {
-                        var user = new User
+                        var comment = new Comment
                         {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3)
+                            CommentId= reader.GetInt32(0),
+                            CommentText = reader.GetString(1),
+                            MovieId = reader.GetInt32(2),
+                            UserId = reader.GetInt32(3),
                         };
                         
-                        usersToReturn.Add(user);
+                        commentsToReturn.Add(comment);
                         
-                        Console.WriteLine($"{user.UserId}, {user.Name}, {user.Password}, {user.EmailAddress}");
+                        Console.WriteLine($"{comment.CommentText}, {comment.MovieId}, {comment.UserId}");
                     }
                 }
 
@@ -81,34 +82,36 @@ public class UserDataAccess : IUserDataAccess
             Console.WriteLine("Error: " + ex.Message); 
         }
 
-        return usersToReturn;
+        return commentsToReturn;
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<IList<Comment>> GetComentsForMovieAsync(int movieId)
     {
-        var userToReturn = new User();
+         var commentsToReturn = new List<Comment>();
         try
         {
-            string commandString = $"SELECT * FROM [user] WHERE email=@email";
+            string commandString = $"SELECT * FROM [comment] WHERE movieId=@movieId";
             await using (connection = new SqlConnection(builder.ConnectionString))
             await using (SqlCommand command = new SqlCommand(commandString, connection))
             {
                 await connection.OpenAsync();
-                command.Parameters.AddWithValue("@email", email);
-                
+                command.Parameters.AddWithValue("@movieId", movieId);
+
                 await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    if (reader.Read())
-                    { 
-                        userToReturn = new User
+                    while (reader.Read())
+                    {
+                        var comment = new Comment
                         {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3)
+                            CommentId= reader.GetInt32(0),
+                            CommentText = reader.GetString(1),
+                            MovieId = reader.GetInt32(2),
+                            UserId = reader.GetInt32(3),
                         };
                         
-                        Console.WriteLine($"{userToReturn.UserId}, {userToReturn.Name}, {userToReturn.Password}, {userToReturn.EmailAddress}");
+                        commentsToReturn.Add(comment);
+                        
+                        Console.WriteLine($"{comment.CommentText}, {comment.MovieId}, {comment.UserId}");
                     }
                 }
 
@@ -120,39 +123,39 @@ public class UserDataAccess : IUserDataAccess
             Console.WriteLine("Error: " + ex.Message); 
         }
 
-        return userToReturn;
+        return commentsToReturn;
     }
 
-    public async Task<User> GetUserById(int userId)
+    public async Task<Comment> GetCommentById(int commentId)
     {
-        var userToReturn = new User();
+         var commentToReturn = new Comment();
         try
         {
-            string commandString = $"SELECT * FROM [user] WHERE userId=@userId";
+            string commandString = $"SELECT * FROM [comment] WHERE commentId=@commentId";
             await using (connection = new SqlConnection(builder.ConnectionString))
             await using (SqlCommand command = new SqlCommand(commandString, connection))
             {
                 await connection.OpenAsync();
-                command.Parameters.AddWithValue("@userId", userId);
+                command.Parameters.AddWithValue("@commentId", commentId);
 
                 await using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
                         
-                             var user = new User
+                             var comment = new Comment
                         {
-                            UserId = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            EmailAddress = reader.GetString(2),
-                            Password = reader.GetString(3),
+                            CommentId= reader.GetInt32(0),
+                            CommentText = reader.GetString(1),
+                            MovieId = reader.GetInt32(2),
+                            UserId = reader.GetInt32(3),
                         };
                         
                         
                         
-                        userToReturn = user;
+                        commentToReturn = comment;
                         
-                        Console.WriteLine($"{user.Name}, {user.UserId}");
+                        Console.WriteLine($"{comment.CommentText}, {comment.UserId}");
                     }
                 }
 
@@ -164,6 +167,6 @@ public class UserDataAccess : IUserDataAccess
             Console.WriteLine("Error: " + ex.Message); 
         }
 
-        return userToReturn;
+        return commentToReturn;
     }
 }

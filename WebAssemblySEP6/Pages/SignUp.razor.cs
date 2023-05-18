@@ -23,16 +23,23 @@ namespace WebAssemblySEP6.Pages
         
         private async Task RegisterUser()
         {
-            if (await userService.IsEmailAddressUsed(user) == false) 
+            if (user.EmailAddress == null || user.Password == null || user.Name == null)
             {
-                Console.WriteLine("email not used");
-                await userService.AddUserAsync(user);
-                navigationManager.NavigateTo("/counter");
+                LoginMessage = "Please complete all fields";
             }
             else
             {
-                Console.WriteLine("email used");
-                LoginMessage = "Email address already in use";
+                if (await userService.IsEmailAddressUsed(user) == false)
+                {
+                    Console.WriteLine("email not used");
+                    await userService.AddUserAsync(user);
+                    navigationManager.NavigateTo("/counter");
+                }
+                else
+                {
+                    Console.WriteLine("email used");
+                    LoginMessage = "Email address already in use";
+                }
             }
         }
     }
