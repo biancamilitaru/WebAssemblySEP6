@@ -6,7 +6,7 @@ namespace WebAssemblySEP6.Communication;
 
 public class UserCommunication : IUserCommunication
 {
-    private string uri = "https://localhost:7044/User";
+    private string uri = "https://backendmovie4you.azurewebsites.net/User";
     private HttpClient httpClient;
 
     public UserCommunication()
