@@ -1,75 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using SEP6Backend.DataAccess;
 
-namespace SEP6Backend.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class UserController:ControllerBase
+namespace SEP6Backend.Controllers
 {
-    private IUserDataAccess userDataAccess;
 
-    public UserController()
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
     {
-        userDataAccess = new UserDataAccess();
-    }
+        private IUserDataAccess userDataAccess;
 
-    [HttpPost]
-    public async Task<ActionResult<User>> AddUser([FromBody] User user)
-    {
-        try
+        public UserController()
         {
-            await userDataAccess.AddUserAsync(user);
-            return Created($"/{user.UserId}", user);
+            userDataAccess = new UserDataAccess();
         }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 
-    [HttpGet]
-    public async Task<ActionResult<IList<User>>> GetAllUsers()
-    {
-        try
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUser([FromBody] User user)
         {
-            var usersToReturn = await userDataAccess.GetAllUsersAsync();
-            return Ok(usersToReturn);
+            try
+            {
+                await userDataAccess.AddUserAsync(user);
+                return Created($"/{user.UserId}", user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
-    
-    [HttpGet]
-    [Route("{email}")]
-    public async Task<ActionResult<User>> GetUserByEmail([FromRoute] string email)
-    {
-        try
-        {
-            var userToReturn = await userDataAccess.GetUserByEmailAsync(email);
-            return Ok(userToReturn);
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, e.Message);
-        }
-    }
 
-    [HttpGet]
-    [Route("{userId:int}")]
-    public async Task<ActionResult<User>> GetUserById([FromRoute]int userId)
-    {
-        try
+        [HttpGet]
+        public async Task<ActionResult<IList<User>>> GetAllUsers()
         {
-            var userToReturn = await userDataAccess.GetUserById(userId);
-            return Ok(userToReturn);
+            try
+            {
+                var usersToReturn = await userDataAccess.GetAllUsersAsync();
+                return Ok(usersToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
-        catch (Exception e)
+
+        [HttpGet]
+        [Route("{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail([FromRoute] string email)
         {
-            return StatusCode(500, e.Message);
+            try
+            {
+                var userToReturn = await userDataAccess.GetUserByEmailAsync(email);
+                return Ok(userToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{userId:int}")]
+        public async Task<ActionResult<User>> GetUserById([FromRoute] int userId)
+        {
+            try
+            {
+                var userToReturn = await userDataAccess.GetUserById(userId);
+                return Ok(userToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

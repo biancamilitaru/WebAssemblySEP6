@@ -1,101 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Model;
 
-namespace WebAssemblySEP6.Communication;
-
-public class CommentCommunication : ICommentCommunication
+namespace WebAssemblySEP6.Communication
 {
-    private string uri = "https://localhost:7044/Comment";
-    private HttpClient httpClient;
 
-    public CommentCommunication()
+    public class CommentCommunication : ICommentCommunication
     {
-        httpClient = new HttpClient();
-    }
+        private string uri = "https://localhost:7044/Comment";
+        private HttpClient httpClient;
 
-    public async Task AddCommentAsync(Comment commentToAdd)
-    {
-        
-         string userToAddAsJson = JsonSerializer.Serialize(commentToAdd);
-
-        StringContent content = new StringContent(
-            userToAddAsJson,
-            Encoding.UTF8,
-            "application/json"
-        );
-        
-        HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
-        if (!responseMessage.IsSuccessStatusCode)
+        public CommentCommunication()
         {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            httpClient = new HttpClient();
         }
-    }
 
-    public async Task<Comment> GetCommentById(int commentId)
-    {
-         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/commentId/{commentId}");
-        if (!responseMessage.IsSuccessStatusCode)
+        public async Task AddCommentAsync(Comment commentToAdd)
         {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
-        }
-        
-        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        var httpResponse = JsonSerializer.Deserialize<Comment>(responseStream,
-            new JsonSerializerOptions()
+            string userToAddAsJson = JsonSerializer.Serialize(commentToAdd);
+
+            StringContent content = new StringContent(
+                userToAddAsJson,
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage responseMessage = await httpClient.PostAsync(uri, content);
+            if (!responseMessage.IsSuccessStatusCode)
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true
-            });
-
-        return httpResponse;
-    }
-
-    public async Task<IList<Comment>> GetCommentsForMovie(int movieId)
-    {
-         HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{movieId}");
-        if (!responseMessage.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
         }
-        
-        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
-            new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true
-            });
-
-        return httpResponse;
-    }
-
-    public async Task IncreaseCommendId(Comment comment){
-
-        HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
-        if (!responseMessage.IsSuccessStatusCode)
+        public async Task<Comment> GetCommentById(int commentId)
         {
-            throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/commentId/{commentId}");
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+            var httpResponse = JsonSerializer.Deserialize<Comment>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return httpResponse;
         }
-        
-        var responseStream = await responseMessage.Content.ReadAsStreamAsync();
 
-        var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
-            new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true
-            });
-
-        if (httpResponse != null)
+        public async Task<IList<Comment>> GetCommentsForMovie(int movieId)
         {
-            
+            HttpResponseMessage responseMessage = await httpClient.GetAsync($"{uri}/{movieId}");
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+            var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return httpResponse;
+        }
+
+        public async Task IncreaseCommendId(Comment comment)
+        {
+
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
+            }
+
+            var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+
+            var httpResponse = JsonSerializer.Deserialize<IList<Comment>>(responseStream,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    PropertyNameCaseInsensitive = true
+                });
+
+            if (httpResponse != null)
+            {
+
                 comment.CommentId = httpResponse.Last().CommentId + 1;
             }
         }
     }
+}
 
 
    

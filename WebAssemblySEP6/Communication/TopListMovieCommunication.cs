@@ -40,7 +40,7 @@ namespace WebAssemblySEP6.Communication
                 throw new Exception($"Error: {responseMessage.StatusCode}, {responseMessage.ReasonPhrase}");
             }
         }
-
+        
         public async Task DeleteTopListMovieById(int id)
         {
             string requestUri = $"{uri}/{id}";
