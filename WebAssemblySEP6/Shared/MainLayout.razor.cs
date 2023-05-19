@@ -1,26 +1,26 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using WebAssemblySEP6.Authentication;
 
-namespace WebAssemblySEP6.Shared;
-
-public partial class MainLayout
+namespace WebAssemblySEP6.Shared
 {
-    [Inject]
-    private NavigationManager navigationManager { get; set; }
-    [CascadingParameter] 
-    protected Task<AuthenticationState> AuthStat { get; set; }
-    [Inject]
-    private AuthenticationStateProvider authenticationStateProvider { get; set; }
 
-    private void LogOut()
-    { 
-        ((CustomAuthenticationStateProvider) authenticationStateProvider).Logout();
-        navigationManager.NavigateTo("/");
-    }
-
-    private void LogIn()
+    public partial class MainLayout
     {
-        navigationManager.NavigateTo("/login");
+        [Inject] private NavigationManager navigationManager { get; set; }
+        [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+        [Inject] private AuthenticationStateProvider authenticationStateProvider { get; set; }
+
+        private void LogOut()
+        {
+            ((CustomAuthenticationStateProvider) authenticationStateProvider).Logout();
+            navigationManager.NavigateTo("/");
+        }
+
+        private void LogIn()
+        {
+            navigationManager.NavigateTo("/login");
+        }
     }
 }

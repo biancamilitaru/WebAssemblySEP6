@@ -1,11 +1,14 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using WebAssemblySEP6.Communication;
 using Model;
+using WebAssemblySEP6.Authentication;
 
 namespace WebAssemblySEP6.Pages
 {
-
+    [Authorize]
     public partial class AddComment
     {
         [Inject] private NavigationManager navigationManager { get; set; }
@@ -16,13 +19,16 @@ namespace WebAssemblySEP6.Pages
         [Parameter] public string? Title { get; set; }
 
         [Parameter] public int Id { get; set; }
+        
+        [Inject] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        private int userIdFromLogin {get;set;}
 
 
         protected override void OnInitialized()
         {
             commentCommunication = new CommentCommunication();
             comment = new Comment();
-
+            userIdFromLogin = ((CustomAuthenticationStateProvider) AuthenticationStateProvider).CachedUser.UserId;
         }
 
 
@@ -31,7 +37,7 @@ namespace WebAssemblySEP6.Pages
 
             comment = new Comment
             {
-                UserId = 1,
+                UserId = userIdFromLogin,
                 MovieId = Id,
                 CommentText = commentText,
 

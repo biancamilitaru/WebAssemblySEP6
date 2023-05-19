@@ -37,6 +37,7 @@ namespace WebAssemblySEP6.Communication
 
         public async Task<bool> IsIdCorrect(TopList topList)
         {
+            Console.WriteLine("In the TopListCommunication class in the IsIdCorrect method");
             try
             {
                 HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
@@ -58,6 +59,7 @@ namespace WebAssemblySEP6.Communication
                     topList.Id = topLists.Max(tl => tl.Id) + 1;
                 }
 
+                Console.WriteLine(topList.Id + " "+isIdUsed );
                 return isIdUsed;
             }
             catch (Exception ex)
