@@ -1,21 +1,16 @@
 ﻿@page "/TopListMovieCard/{movieId:int}"
 
 <AuthorizeView>
-    <Authorized>
-        <link rel="stylesheet" href="css/topListMovieCard.css">
+    <link rel="stylesheet" href="css/topListMovieCard.css">
 
-        <a @onclick="@GetIndividualMovie">
-            <div class="card">
-                <div class="image">
-                    <img src="@movie.Image" alt="Movie image">
-                </div>
-                <div class="container">
-                    <h4>@movie.Title</h4>
-                </div>
+    <a @onclick="@GetIndividualMovie">
+        <div class="card">
+            <div class="image">
+                <img src="@movie.Image" alt="Movie image">
             </div>
-        </a>
-    </Authorized>
-    <NotAuthorized>
-        <NotAuthorizedComponent></NotAuthorizedComponent>
-    </NotAuthorized>
+            <div class="container">
+                <h4>@movie.Title</h4>
+            </div>
+        </div>
+    </a>
 </AuthorizeView>

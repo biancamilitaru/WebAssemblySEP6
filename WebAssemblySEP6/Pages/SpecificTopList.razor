@@ -1,26 +1,28 @@
 ﻿@page "/SpecificTopList/{toplistId:int}"
 <PageTitle>@topListName</PageTitle>
-<link rel="stylesheet" href="css/specificTopList.css">
 
+<AuthorizeView>
+    <link rel="stylesheet" href="css/specificTopList.css">
 
-<h1>@topListName</h1>
+    <h1>@topListName</h1>
 
-<p class="title">Movies included in the top list:</p>
-<div class="wrapper">
-    @foreach (var movie in movies)
-    {
-        <div class="movie-card">
-            <TopListMovieCard movieId=@movie.Id></TopListMovieCard>
-        </div>
-    }
-</div>
-<br>
-<br>
+    <p class="title">Movies included in the top list:</p>
+    <div class="wrapper">
+        @foreach (var movie in movies)
+        {
+            <div class="movie-card">
+                <TopListMovieCard movieId=@movie.Id></TopListMovieCard>
+            </div>
+        }
+    </div>
+    <br>
+    <br>
 
-<div class="centered-container">
-    <button class="btn btn-dark mr-2" @onclick="openAddTopListPage">Create a new top list</button>
-    <button class="btn btn-dark" @onclick="openTopListPage">Back to the list</button>
-</div>
-<div class="centered-container2">
-    <button class="delete-button" @onclick="DeleteTopList">Delete this top list</button>
-</div>
+    <div class="centered-container">
+        <button class="btn btn-dark mr-2" @onclick="openAddTopListPage">Create a new top list</button>
+        <button class="btn btn-dark" @onclick="openTopListPage">Back to the list</button>
+    </div>
+    <div class="centered-container2">
+        <button class="delete-button" @onclick="DeleteTopList">Delete this top list</button>
+    </div>
+</AuthorizeView>

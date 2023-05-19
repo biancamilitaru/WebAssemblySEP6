@@ -3,24 +3,19 @@
 <PageTitle>Add comment</PageTitle>
 
 <AuthorizeView>
-    <Authorized>
-        <link rel="stylesheet" href="css/addComment.css">
-        
-        <h1>Add comment to: @Title</h1>
-        <!--This is just to test that we can get the id, we will send it to the database with the comment-->
-        <p>ID: @Id</p>
-        <div class="cont">
-            <div class="form">
-                <EditForm Context="ContextForm" Model="@comment" OnValidSubmit="@postCommentAsync">
-                    <input type="text" placeholder="Add your comment here.." @bind-value="commentText">
-                    <div class="buttonDiv">
+    <link rel="stylesheet" href="css/addComment.css">
+
+    <h1>Add comment to: @Title</h1>
+    <!--This is just to test that we can get the id, we will send it to the database with the comment-->
+    <p>ID: @Id</p>
+    <div class="cont">
+        <div class="form">
+            <EditForm Context="ContextForm" Model="@comment" OnValidSubmit="@postCommentAsync">
+                <input type="text" placeholder="Add your comment here.." @bind-value="commentText">
+                <div class="buttonDiv">
                     <button type="submit" class="btn btn-dark">Add comment</button>
-                    </div>
-                </EditForm>
-            </div>
+                </div>
+            </EditForm>
         </div>
-    </Authorized>    
-    <NotAuthorized>
-        <NotAuthorizedComponent></NotAuthorizedComponent>
-    </NotAuthorized>
+    </div>
 </AuthorizeView>

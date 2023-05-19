@@ -13,7 +13,6 @@ namespace WebAssemblySEP6.Pages
     {
         private ITopListCommunication topListCommunication = new TopListCommunication();
         private ITopListMovieCommunication topListMovieCommunication = new TopListMovieCommunication();
-        //Todo: communication class
         [Parameter]
         public string topListName {get;set;}
         [Parameter]
