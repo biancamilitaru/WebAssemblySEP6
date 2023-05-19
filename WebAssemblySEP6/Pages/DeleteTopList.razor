@@ -2,21 +2,16 @@
 <PageTitle>Delete top list</PageTitle>
 
 <AuthorizeView>
-    <Authorized>
-        <link rel="stylesheet" href="css/deleteTopList.css">
-        
-        <h1>Confirm your delete action</h1>
-        
-        <p>Are you sure you want to delete your <span class="toplist-name">@topListName</span> top list?</p>
-        <br/>
-        <div class="cont">
-            <div class="buttonCont">
-                <button class="btn btn-dark" @onclick="@doNotDeleteTopList">No</button>
-                <button class="btn btn-dark" @onclick="@deleteTopList">Yes</button>
-            </div>
+    <link rel="stylesheet" href="css/deleteTopList.css">
+
+    <h1>Confirm your delete action</h1>
+
+    <p>Are you sure you want to delete your <span class="toplist-name">@topListName</span> top list?</p>
+    <br/>
+    <div class="cont">
+        <div class="buttonCont">
+            <button class="btn btn-dark" @onclick="@doNotDeleteTopList">No</button>
+            <button class="btn btn-dark" @onclick="@deleteTopList">Yes</button>
         </div>
-    </Authorized>
-    <NotAuthorized>
-        <NotAuthorizedComponent></NotAuthorizedComponent>
-    </NotAuthorized>
+    </div>
 </AuthorizeView>
