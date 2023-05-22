@@ -1,0 +1,29 @@
+@page "/CommentedMovies"
+
+<PageTitle>Top commented movies</PageTitle>
+
+<AuthorizeView>
+    <h1>Top 5 commented movies on our platform</h1>
+
+    <table class="table">
+        @foreach (var commentGrouped in allComments.GroupBy(x => x.MovieId).OrderByDescending(x => x.Count()).Take(5))
+        {
+            <tr>
+                <td>
+                    <TopListMovieCard movieId=@commentGrouped.Key></TopListMovieCard>
+                </td>
+                <td>
+                    <p>@commentGrouped.Count() comments</p>
+                </td>
+                <td>
+                    @foreach (var comment in commentGrouped)
+                    {
+                        Console.WriteLine($"Comment {comment.CommentId} {comment.MovieId} {comment.CommentText}");
+                        <CommentComponent commentId="comment.CommentId"></CommentComponent>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    
+</AuthorizeView>

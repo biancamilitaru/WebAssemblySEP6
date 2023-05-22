@@ -15,5 +15,7 @@ namespace WebAssemblySEP6.Communication
 
         public Task<Comment> GetCommentById(int commentId);
 
+        public Task<IList<Comment>> GetAllComments();
+
     }
 }

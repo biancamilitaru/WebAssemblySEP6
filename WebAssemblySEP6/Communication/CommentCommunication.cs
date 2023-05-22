@@ -82,6 +82,17 @@ namespace WebAssemblySEP6.Communication
         public async Task IncreaseCommendId(Comment comment)
         {
 
+            var comments = await GetAllComments();
+
+            if (comments != null)
+            {
+
+                comment.CommentId = comments.Last().CommentId + 1;
+            }
+        }
+
+        public async Task<IList<Comment>> GetAllComments()
+        {
             HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
             if (!responseMessage.IsSuccessStatusCode)
             {
@@ -97,11 +108,7 @@ namespace WebAssemblySEP6.Communication
                     PropertyNameCaseInsensitive = true
                 });
 
-            if (httpResponse != null)
-            {
-
-                comment.CommentId = httpResponse.Last().CommentId + 1;
-            }
+            return httpResponse;
         }
     }
 }
