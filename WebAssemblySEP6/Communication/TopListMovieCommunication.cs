@@ -12,7 +12,7 @@ namespace WebAssemblySEP6.Communication
     public class TopListMovieCommunication : ITopListMovieCommunication
     {
         // TODO - update this links with the good ones after deploying the web online
-        private string uri = "https://localhost:7044/TopListMovie";
+        private string uri = "https://backend4hell.azurewebsites.net/api/TopListMovie";
         private HttpClient httpClient;
 
         public TopListMovieCommunication()

@@ -12,7 +12,7 @@ namespace WebAssemblySEP6.Communication
     public class TopListCommunication : ITopListCommunication
     {
         // TODO - update this links with the good ones after deploying the web online
-        private string uri = "https://localhost:7044/TopList";
+        private string uri = "https://backend4hell.azurewebsites.net/api/TopList";
         private HttpClient httpClient;
 
         public TopListCommunication()

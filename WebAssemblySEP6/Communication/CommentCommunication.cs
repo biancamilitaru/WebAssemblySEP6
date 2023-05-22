@@ -13,7 +13,7 @@ namespace WebAssemblySEP6.Communication
     public class CommentCommunication : ICommentCommunication
     {
         // TODO - update this links with the good ones after deploying the web online
-        private string uri = "https://localhost:7044/Comment";
+        private string uri = "https://backend4hell.azurewebsites.net/api/Comment";
         private HttpClient httpClient;
 
         public CommentCommunication()

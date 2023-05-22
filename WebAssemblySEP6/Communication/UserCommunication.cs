@@ -13,7 +13,7 @@ namespace WebAssemblySEP6.Communication
     public class UserCommunication : IUserCommunication
     {
         // TODO - update this links with the good ones after deploying the web online
-        private string uri = "https://localhost:7044/User";
+        private string uri = "https://backend4hell.azurewebsites.net/api/User";
         private HttpClient httpClient;
 
         public UserCommunication()
